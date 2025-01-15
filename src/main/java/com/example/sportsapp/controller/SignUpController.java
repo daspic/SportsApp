@@ -27,16 +27,16 @@ public class SignUpController {
     }
 
     @PostMapping("/signup")
-    public String signUpUser(User user) {
-        // Check if the username already exists using Optional's isPresent()
-        Optional<User> existingUser = userService.findByUsername(user.getUsername());
+    public String signUpUser(User users) {
+        // Check if the email already exists using Optional's isPresent()
+        Optional<User> existingUser = userService.findByEmail(users.getEmail());
         if (existingUser.isPresent()) {
-            // If the username exists, show an error message or redirect
+            // If the email exists, show an error message or redirect
             return "redirect:/signup?error"; // Example: Redirect with an error
         }
 
         // Otherwise, save the new user
-        userService.save(user);
+        userService.save(users);
         return "redirect:/login"; // Redirect to the login page after successful signup
     }
 }

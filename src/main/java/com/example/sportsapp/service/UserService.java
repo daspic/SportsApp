@@ -19,22 +19,22 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public Optional<User> findByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
-    public void save(User user) {
+    public void save(User users) {
         // Encrypt the password before saving it
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        users.setPassword(passwordEncoder.encode(users.getPassword()));
+        userRepository.save(users);
     }
 
-    public String registerUser(User user) {
-        Optional<User> existingUser = findByUsername(user.getUsername());
+    public String registerUser(User users) {
+        Optional<User> existingUser = findByEmail(users.getEmail());
         if (existingUser.isPresent()) {
-            return "Username already taken";
+            return "Email already taken";
         }
-        save(user); // Save the user after password encoding
+        save(users); // Save the user after password encoding
         return "User registered successfully";
     }
 }
