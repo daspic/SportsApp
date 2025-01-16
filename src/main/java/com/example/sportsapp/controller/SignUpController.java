@@ -26,6 +26,11 @@ public class SignUpController {
         return "signup"; // Your sign-up page
     }
 
+    @GetMapping("/login")
+    public String showLoginForm(Model model) {
+        model.addAttribute("user", new User());
+        return "login"; // Your sign-up page
+    }
     @PostMapping("/signup")
     public String signUpUser(User users) {
         // Check if the email already exists using Optional's isPresent()
@@ -38,5 +43,17 @@ public class SignUpController {
         // Otherwise, save the new user
         userService.save(users);
         return "redirect:/login"; // Redirect to the login page after successful signup
+    }
+
+    @PostMapping("/login")
+    public String logInUser(User users){
+
+
+        Optional<User> existingUser = userService.findByEmailAndPassword(users.getEmail(), users.getPassword());
+        if (existingUser.isPresent()){
+            return "redirect:/dashboard";
+        }
+
+        return "Error";
     }
 }

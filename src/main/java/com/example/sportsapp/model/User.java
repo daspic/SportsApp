@@ -15,12 +15,36 @@ public class User {
     @Column(nullable = false)
     private String password; // Encrypted password
 
-//    @Column(nullable = false)
+    public String getContactInfo() {
+        return contactInfo;
+    }
+
+    public void setContactInfo(String contactInfo) {
+        this.contactInfo = contactInfo;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    //    @Column(nullable = false)
     private String role;
 
     private String name;
 
-    private String contact_info;
+    private String contactInfo;
 
     // Getters and setters
     public Long getUser_id() {

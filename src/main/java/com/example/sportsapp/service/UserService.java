@@ -23,6 +23,12 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
+    public Optional<User> findByEmailAndPassword(String email, String password){
+        // TODO: encode password before searching in DB
+
+        return userRepository.findByEmailAndPassword(email, passwordEncoder.encode(password));
+    }
+
     public void save(User users) {
         // Encrypt the password before saving it
         users.setPassword(passwordEncoder.encode(users.getPassword()));
