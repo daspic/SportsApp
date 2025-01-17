@@ -46,14 +46,35 @@ public class SignUpController {
     }
 
     @PostMapping("/login")
-    public String logInUser(User users){
+    public String logInUser(User users) {
+        // Find the user by email
+        Optional<User> existingUser = userService.findByEmail(users.getEmail());
 
+        // Check if the user exists and validate the password
+        if (existingUser.isPresent()) {
+            User user = existingUser.get();
 
-        Optional<User> existingUser = userService.findByEmailAndPassword(users.getEmail(), users.getPassword());
-        if (existingUser.isPresent()){
-            return "redirect:/dashboard";
+            // Log the raw and encoded password for debugging (optional)
+            System.out.println("Raw password: " + users.getPassword());
+            System.out.println("Stored encoded password: " + user.getPassword());
+
+            // Use PasswordEncoder to validate the password
+            if (userService.getPasswordEncoder().matches(users.getPassword(), user.getPassword())) {
+                return "redirect:/dashboard";
+            }
         }
 
+        // If user does not exist or password is invalid, return an error
         return "Error";
     }
+//    @PostMapping("/login")
+//    public String logInUser(User users){
+//
+//        Optional<User> existingUser = userService.findByEmailAndPassword(users.getEmail(), users.getPassword());
+//        if (existingUser.isPresent()){
+//            return "redirect:/dashboard";
+//        }
+//
+//        return "Error";
+//    }
 }

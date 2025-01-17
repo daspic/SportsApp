@@ -23,11 +23,33 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public Optional<User> findByEmailAndPassword(String email, String password){
-        // TODO: encode password before searching in DB
-
-        return userRepository.findByEmailAndPassword(email, passwordEncoder.encode(password));
+    public PasswordEncoder getPasswordEncoder() {
+        return passwordEncoder;
     }
+
+    public Optional<User> findByEmailAndPassword(String email, String rawPassword) {
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+
+            // Check if the raw password matches the stored encoded password
+            if (passwordEncoder.matches(rawPassword, user.getPassword())) {
+                return Optional.of(user);
+            }
+        }
+        return Optional.empty();
+    }
+//    public Optional<User> findByEmailAndPassword(String email, String password){
+//        // TODO: encode password before searching in DB
+//
+//        // pentru testare
+////        String encodedPassword = passwordEncoder.encode(password);
+////        System.out.println("Encoded password: " + encodedPassword);
+////        return userRepository.findByEmailAndPassword(email, encodedPassword);
+//        //
+//
+//        return userRepository.findByEmailAndPassword(email, passwordEncoder.encode(password));
+//    }
 
     public void save(User users) {
         // Encrypt the password before saving it
