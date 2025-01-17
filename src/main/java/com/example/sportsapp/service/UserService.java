@@ -65,4 +65,10 @@ public class UserService {
         save(users); // Save the user after password encoding
         return "User registered successfully";
     }
+
+    public void saveAdminUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole("ADMIN"); // Set default role
+        userRepository.save(user);
+    }
 }
