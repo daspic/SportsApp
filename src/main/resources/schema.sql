@@ -1,5 +1,11 @@
+--DROP TABLE IF EXISTS user CASCADE;
+--DROP SEQUENCE IF EXISTS users_seq;
+--
+CREATE SEQUENCE users_seq START WITH 1 INCREMENT BY 1;
+
 CREATE TABLE users (
-    user_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+--    user_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT DEFAULT nextval('users_seq') PRIMARY KEY,
     contact_info VARCHAR(255),
     email VARCHAR(255) UNIQUE NOT NULL,
     name VARCHAR(255),
@@ -7,21 +13,21 @@ CREATE TABLE users (
     role VARCHAR(50)
 );
 
--- Create the 'teams' table
-CREATE TABLE teams (
-    team_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL UNIQUE,
-    description VARCHAR(255),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Create the 'players' table
-CREATE TABLE players (
-    player_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    position VARCHAR(50),
-    team_id BIGINT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (team_id) REFERENCES teams(team_id) ON DELETE CASCADE
-);
+---- Create the 'teams' table
+--CREATE TABLE teams (
+--    team_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+--    name VARCHAR(255) NOT NULL UNIQUE,
+--    description VARCHAR(255),
+--    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+--);
+--
+---- Create the 'players' table
+--CREATE TABLE players (
+--    player_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+--    name VARCHAR(255) NOT NULL,
+--    position VARCHAR(50),
+--    team_id BIGINT,
+--    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--    FOREIGN KEY (team_id) REFERENCES teams(team_id) ON DELETE CASCADE
+--);

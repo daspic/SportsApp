@@ -16,7 +16,7 @@ public class DataInitializer {
             if (userService.findByEmail("admin@example.com").isEmpty()) {
                 // Create and save the admin user
                 User adminUser = new User();
-                adminUser.setName("Admin User");
+                adminUser.setName("Admin");
                 adminUser.setContactInfo("contact info");
                 adminUser.setEmail("admin@example.com");
                 adminUser.setPassword("admin123"); // Default password
