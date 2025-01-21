@@ -2,9 +2,30 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
     <title>Dashboard</title>
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 <h1>Dashboard</h1>
-
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Creation Date</th>
+        <th>Updated Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Loop through the 'entries' list -->
+    <tr th:each="team : ${teams}">
+        <td th:text="${team.team_id}"></td>
+        <td th:text="${team.name}"></td>
+        <td th:text="${team.description}"></td>
+        <td th:text="${team.created_at}"></td>
+        <td th:text="${team.updated_at}"></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

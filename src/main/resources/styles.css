@@ -1,0 +1,62 @@
+/* Table Container */
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+}
+
+/* Table Header */
+thead {
+    background-color: #4CAF50;
+    color: white;
+    text-align: left;
+}
+
+/* Table Headers */
+th {
+    padding: 12px 20px;
+    text-align: left;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* Table Data Cells */
+td {
+    padding: 10px 20px;
+    text-align: left;
+    font-size: 14px;
+}
+
+/* Alternate Row Colors */
+tbody tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+/* Hover Effect */
+tbody tr:hover {
+    background-color: #e0f7fa;
+    cursor: pointer;
+}
+
+/* Borders */
+th, td {
+    border: 1px solid #ddd;
+}
+
+/* Rounded Corners for the Table */
+table {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    table {
+        width: 100%;
+    }
+    th, td {
+        padding: 8px;
+    }
+}

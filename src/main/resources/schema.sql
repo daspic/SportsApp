@@ -1,8 +1,5 @@
---DROP TABLE IF EXISTS user CASCADE;
---DROP SEQUENCE IF EXISTS users_seq;
---
 CREATE SEQUENCE users_seq START WITH 1 INCREMENT BY 1;
-
+-- Create the 'users' table
 CREATE TABLE users (
 --    user_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT DEFAULT nextval('users_seq') PRIMARY KEY,
@@ -13,14 +10,15 @@ CREATE TABLE users (
     role VARCHAR(50)
 );
 
----- Create the 'teams' table
---CREATE TABLE teams (
---    team_id BIGINT AUTO_INCREMENT PRIMARY KEY,
---    name VARCHAR(255) NOT NULL UNIQUE,
---    description VARCHAR(255),
---    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
---    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
---);
+CREATE SEQUENCE teams_seq START WITH 1 INCREMENT BY 1;
+-- Create the 'teams' table
+CREATE TABLE teams (
+    team_id BIGINT DEFAULT nextval('teams_seq') PRIMARY KEY,
+    name VARCHAR(255) NOT NULL UNIQUE,
+    description VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 --
 ---- Create the 'players' table
 --CREATE TABLE players (
