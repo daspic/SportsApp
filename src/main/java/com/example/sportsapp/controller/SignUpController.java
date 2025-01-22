@@ -67,14 +67,4 @@ public class SignUpController {
         // If user does not exist or password is invalid, return an error
         return "Error";
     }
-//    @PostMapping("/login")
-//    public String logInUser(User users){
-//
-//        Optional<User> existingUser = userService.findByEmailAndPassword(users.getEmail(), users.getPassword());
-//        if (existingUser.isPresent()){
-//            return "redirect:/dashboard";
-//        }
-//
-//        return "Error";
-//    }
 }

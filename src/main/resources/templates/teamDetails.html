@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Team Details</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<h1>Team Details</h1>
+
+<!-- Display the team's details -->
+<div>
+    <p><strong>ID:</strong> <span th:text="${team.team_id}"></span></p>
+    <p><strong>Name:</strong> <span th:text="${team.name}"></span></p>
+    <p><strong>Description:</strong> <span th:text="${team.description}"></span></p>
+    <p><strong>Created At:</strong> <span th:text="${team.created_at}"></span></p>
+    <p><strong>Updated At:</strong> <span th:text="${team.updated_at}"></span></p>
+</div>
+
+<a href="/dashboard">Back to Dashboard</a>
+</body>
+</html>

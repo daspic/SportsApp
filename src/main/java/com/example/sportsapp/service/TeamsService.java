@@ -1,10 +1,8 @@
 package com.example.sportsapp.service;
 
 import com.example.sportsapp.model.Team;
-import com.example.sportsapp.model.User;
 import com.example.sportsapp.repository.TeamsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,6 +37,11 @@ public class TeamsService {
         }
         save(team); // Save the user after password encoding
         return "Team registered successfully";
+    }
+
+    public Team getTeamById(Long teamId) {
+        Optional<Team> team = teamsRepository.findById(teamId); // Find a team by its ID
+        return team.orElse(null); // Return the team if present, otherwise return null
     }
 
 }

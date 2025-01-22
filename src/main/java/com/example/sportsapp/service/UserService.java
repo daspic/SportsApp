@@ -1,10 +1,13 @@
 package com.example.sportsapp.service;
 
+import com.example.sportsapp.model.Team;
 import com.example.sportsapp.model.User;
 import com.example.sportsapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -46,5 +49,9 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole("ADMIN"); // Set default role
         userRepository.save(user);
+    }
+
+    public List<User> getAllUsers(){
+        return userRepository.findAll();
     }
 }

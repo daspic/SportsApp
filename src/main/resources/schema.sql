@@ -19,13 +19,13 @@ CREATE TABLE teams (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
---
----- Create the 'players' table
---CREATE TABLE players (
---    player_id BIGINT AUTO_INCREMENT PRIMARY KEY,
---    name VARCHAR(255) NOT NULL,
---    position VARCHAR(50),
---    team_id BIGINT,
---    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
---    FOREIGN KEY (team_id) REFERENCES teams(team_id) ON DELETE CASCADE
---);
+
+-- Create the 'players' table
+CREATE SEQUENCE players_seq START WITH 1 INCREMENT BY 1;
+CREATE TABLE players (
+    player_id BIGINT DEFAULT nextval('players_seq') PRIMARY KEY,
+    user_id BIGINT,
+    team_id BIGINT,
+    player_stats VARCHAR(255),
+    FOREIGN KEY (team_id) REFERENCES teams(team_id) ON DELETE CASCADE
+);

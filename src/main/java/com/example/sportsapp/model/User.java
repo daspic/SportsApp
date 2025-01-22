@@ -16,30 +16,6 @@ public class User {
     @Column(nullable = false)
     private String password; // Encrypted password
 
-    public String getContactInfo() {
-        return contactInfo;
-    }
-
-    public void setContactInfo(String contactInfo) {
-        this.contactInfo = contactInfo;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     //    @Column(nullable = false)
     private String role;
 
@@ -70,6 +46,30 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getContactInfo() {
+        return contactInfo;
+    }
+
+    public void setContactInfo(String contactInfo) {
+        this.contactInfo = contactInfo;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
 
