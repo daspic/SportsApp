@@ -1,6 +1,8 @@
 package com.example.sportsapp.model;
 
+import com.example.sportsapp.model.Team;
 import jakarta.persistence.*;
+
 import java.util.Objects;
 
 @Entity(name = "PLAYERS")
@@ -11,17 +13,16 @@ public class Players {
     private Long player_id;
 
     @ManyToOne(optional = false)
-    @JoinColumn (name = "user_id", nullable = false)
-    private User user_id;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @ManyToOne(optional = false)
-    @JoinColumn (name = "team_id", nullable = false)
-    private Team team_id;
+    @JoinColumn(name = "team_id", nullable = false)
+    private Team team;
 
     private String player_stats;
 
     // Getters and setters
-
     public Long getPlayer_id() {
         return player_id;
     }
@@ -30,20 +31,20 @@ public class Players {
         this.player_id = player_id;
     }
 
-    public User getUser_id() {
-        return user_id;
+    public User getUser() {
+        return user;
     }
 
-    public void setUser_id(User user_id) {
-        this.user_id = user_id;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Team getTeam_id() {
-        return team_id;
+    public Team getTeam() {
+        return team;
     }
 
-    public void setTeam_id(Team team_id) {
-        this.team_id = team_id;
+    public void setTeam(Team team) {
+        this.team = team;
     }
 
     public String getPlayer_stats() {

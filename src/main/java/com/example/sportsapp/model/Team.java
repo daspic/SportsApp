@@ -10,8 +10,9 @@ public class Team {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "teams_seq")
-    @SequenceGenerator(name = "teams_seq", sequenceName = "teams_seq", allocationSize = 1)
-    private Long team_id;
+    @SequenceGenerator(name = "teams_seq", sequenceName = "teams_seq", allocationSize = 1) // Adjust allocationSize to 1
+    @Column(name = "team_id")
+    private Long teamId;
 
     @Column(nullable = false)
     private String name;
@@ -52,11 +53,11 @@ public class Team {
     }
 
     public Long getTeam_id() {
-        return team_id;
+        return teamId;
     }
 
     public void setTeam_id(Long team_id) {
-        this.team_id = team_id;
+        this.teamId = team_id;
     }
 
     public LocalDateTime getCreated_at() {

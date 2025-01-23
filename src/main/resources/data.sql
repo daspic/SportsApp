@@ -3,6 +3,7 @@ INSERT INTO users (contact_info, email, name, password, role) VALUES
 ('SQL Contact info', 'admin@yahoo.com', 'SQL Admin User', '$2a$10$6XiHAsHg1JHji6JTKn0eMOR3pvpr7PMrEa4vSUgvB448lJejqA/Pm', 'ADMIN');
 -- pasword: admin
 
+-- for all next users the password is "user"
 INSERT INTO users (contact_info, email, name, password, role) VALUES
 ('User 1', 'user1@yahoo.com', 'User 1', '$2a$10$0OzJIcKr8ikr41kfEkdDcu5DOMha6wRSly7WgeDpOuv1k.zSaKD3K', 'PLAYER');
 

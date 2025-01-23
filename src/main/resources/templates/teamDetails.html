@@ -16,6 +16,25 @@
     <p><strong>Updated At:</strong> <span th:text="${team.updated_at}"></span></p>
 </div>
 
+<!-- Display the players associated with the team -->
+<h2>Players in this Team</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Player ID</th>
+        <th>User</th>
+        <th>Stats</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="player : ${players}">
+        <td th:text="${player.player_id}"></td>
+        <td th:text="${player.user_id.name}"></td>
+        <td th:text="${player.player_stats}"></td>
+    </tr>
+    </tbody>
+</table>
+
 <a href="/dashboard">Back to Dashboard</a>
 </body>
 </html>

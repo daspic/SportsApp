@@ -18,25 +18,33 @@ public class PlayerService {
         this.playersRepository = playersRepository;
     }
 
-    public List<Players> getAllPlayers(){
+    // Fetch all players
+    public List<Players> getAllPlayers() {
         return playersRepository.findAll();
     }
 
+    // Fetch a single player by their ID
     public Optional<Players> findById(Long id) {
         return playersRepository.findById(id);
     }
 
+    // Fetch all players belonging to a specific team
+    public List<Players> getPlayersByTeamId(Long teamId) {
+        return playersRepository.findByTeam_teamId(teamId);
+    }
+
+    // Save or update a player
     public void save(Players players) {
         playersRepository.save(players);
     }
 
+    // Register a new player with a unique ID check
     public String registerPlayers(Players players) {
         Optional<Players> existingPlayers = findById(players.getPlayer_id());
         if (existingPlayers.isPresent()) {
-            return "Name already taken";
+            return "Player ID already taken";
         }
-        save(players); // Save the user after password encoding
+        save(players);
         return "Player registered successfully";
     }
-
 }
