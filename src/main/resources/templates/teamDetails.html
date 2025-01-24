@@ -21,8 +21,11 @@
 <table>
     <thead>
     <tr>
-        <th>Player ID</th>
-        <th>User</th>
+<!--        <th>Player ID</th>-->
+<!--        <th>User</th>-->
+        <th><a th:href="@{/teams/{id}(id=${team.team_id}, playerSort='id')}">ID</a></th>
+        <th><a th:href="@{/teams/{id}(id=${team.team_id}, playerSort='name')}">Name</a></th>
+
         <th>Stats</th>
     </tr>
     </thead>

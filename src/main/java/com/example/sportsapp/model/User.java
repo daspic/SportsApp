@@ -23,6 +23,13 @@ public class User {
 
     private String contactInfo;
 
+    // For debugging
+    @Override
+    public String toString() {
+        return "User{id=" + user_id + ", name='" + name + "', email='" + email + "', role='" + role + "'}";
+    }
+    /// //////////////////////////////
+
     // Getters and setters
     public Long getUser_id() {
         return user_id;

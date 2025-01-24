@@ -12,8 +12,8 @@
 <table border="1">
     <thead>
     <tr>
-        <th>ID</th>
-        <th>Name</th>
+        <th><a th:href="@{/dashboard(userSort='id')}">ID</a></th>
+        <th><a th:href="@{/dashboard(userSort='name')}">Name</a></th>
         <th>Email</th>
         <th>Contact Info</th>
         <th>Role</th>
@@ -37,8 +37,8 @@
 <table border="1">
     <thead>
     <tr>
-        <th>ID</th>
-        <th>Name</th>
+        <th><a th:href="@{/dashboard(teamSort='id')}">ID</a></th>
+        <th><a th:href="@{/dashboard(teamSort='name')}">Name</a></th>
         <th>Description</th>
         <th>Creation Date</th>
         <th>Updated Date</th>
@@ -49,7 +49,6 @@
     <tr th:each="team : ${teams}">
         <td th:text="${team.team_id}"></td>
         <td><a th:href="@{/teams/{id}(id=${team.team_id})}" th:text="${team.name}"></a></td>
-<!--        <td th:text="${team.name}"></td>-->
         <td th:text="${team.description}"></td>
         <td th:text="${team.created_at}"></td>
         <td th:text="${team.updated_at}"></td>
@@ -62,8 +61,8 @@
 <table border="1">
     <thead>
     <tr>
-        <th>ID</th>
-        <th>User ID</th>
+        <th><a th:href="@{/dashboard(playerSort='id')}">ID</a></th>
+        <th><a th:href="@{/dashboard(playerSort='name')}">Name</a></th>
         <th>Team ID</th>
         <th>Player Stats</th>
     </tr>
