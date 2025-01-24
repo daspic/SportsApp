@@ -72,8 +72,8 @@
     <!-- Loop through the 'players' list -->
     <tr th:each="player : ${players}">
         <td th:text="${player.player_id}"></td>
-        <td th:text="${player.user_id.name}"></td>
-        <td th:text="${player.team_id.name}"></td>
+        <td th:text="${player.user.name}"></td>
+        <td th:text="${player.team.name}"></td>
         <td th:text="${player.player_stats}"></td>
     </tr>
     </tbody>

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
-    <title>Team Details</title>
-    <link rel="stylesheet" href="/static/styles.css">
+    <title th:text="'Team Details - ' + ${team.name}"></title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
 </head>
 <body>
-<h1>Team Details</h1>
+<h1 th:text="'Details of Team: ' + ${team.name}"></h1>
 
 <!-- Display the team's details -->
 <div>
@@ -17,7 +17,7 @@
 </div>
 
 <!-- Display the players associated with the team -->
-<h2>Players in this Team</h2>
+<h2 th:text="'Players in ' + ${team.name}"></h2>
 <table>
     <thead>
     <tr>
@@ -29,7 +29,7 @@
     <tbody>
     <tr th:each="player : ${players}">
         <td th:text="${player.player_id}"></td>
-        <td th:text="${player.user_id.name}"></td>
+        <td th:text="${player.user.name}"></td>
         <td th:text="${player.player_stats}"></td>
     </tr>
     </tbody>
