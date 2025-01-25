@@ -18,30 +18,36 @@ public class TeamsService {
         this.teamsRepository = teamsRepository;
     }
 
-    public List<Team> getAllTeams(){
+    // Fetch all teams
+    public List<Team> getAllTeams() {
         return teamsRepository.findAll();
     }
 
+    // Fetch a team by name
     public Optional<Team> findByName(String name) {
         return teamsRepository.findByName(name);
     }
 
-    public void save(Team teams) {
-        teamsRepository.save(teams);
+    // Save or update a team
+    public void save(Team team) {
+        teamsRepository.save(team);
     }
 
-    public String registerTeam(Team team) {
+    // Register a new team with a unique name check
+    public void registerTeam(Team team) {
         Optional<Team> existingTeam = findByName(team.getName());
-        if (existingTeam.isPresent()) {
-            return "Name already taken";
-        }
-        save(team); // Save the user after password encoding
-        return "Team registered successfully";
+
+        // Throw exception if the name already exists
+        existingTeam.ifPresent(t -> {
+            throw new IllegalArgumentException("Team name already taken");
+        });
+
+        save(team); // Save the team after validation
     }
 
+    // Fetch a team by its ID
     public Team getTeamById(Long teamId) {
-        Optional<Team> team = teamsRepository.findById(teamId); // Find a team by its ID
-        return team.orElse(null); // Return the team if present, otherwise return null
+        return teamsRepository.findById(teamId)
+                .orElseThrow(() -> new IllegalArgumentException("Team not found with ID: " + teamId));
     }
-
 }

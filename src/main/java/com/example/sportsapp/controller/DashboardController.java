@@ -21,7 +21,7 @@ public class DashboardController {
 
     private final UserService userService;
     private final TeamsService teamService;
-    private PlayerService playerService;
+    private final PlayerService playerService;
 
     @Autowired
     public DashboardController(UserService userService, TeamsService teamService, PlayerService playerService) {
@@ -37,19 +37,29 @@ public class DashboardController {
             @RequestParam(value = "playerSort", required = false) String playerSort,
             Model model) {
 
-        // Fetch the list of users
+        // Fetch the list of users, teams, and players
         List<User> users = userService.getAllUsers();
         List<Team> teams = teamService.getAllTeams();
         List<Players> players = playerService.getAllPlayers();
 
-        SortUtils.sortList(users, userSort, Comparator.comparing(User::getName), Comparator.comparing(User::getUser_id));
-        SortUtils.sortList(teams, teamSort, Comparator.comparing(Team::getName), Comparator.comparing(Team::getTeam_id));
-        SortUtils.sortList(players, playerSort, Comparator.comparing(p -> p.getUser().getName()), Comparator.comparing(Players::getPlayer_id));
+        // Apply sorting if sorting parameters are provided
+        if (userSort != null) {
+            SortUtils.sortList(users, userSort, Comparator.comparing(User::getName), Comparator.comparing(User::getUser_id));
+        }
 
+        if (teamSort != null) {
+            SortUtils.sortList(teams, teamSort, Comparator.comparing(Team::getName), Comparator.comparing(Team::getTeam_id));
+        }
+
+        if (playerSort != null) {
+            SortUtils.sortList(players, playerSort, Comparator.comparing(p -> p.getUser().getName()), Comparator.comparing(Players::getPlayer_id));
+        }
+
+        // Add sorted lists to the model
         model.addAttribute("users", users);
         model.addAttribute("teams", teams);
         model.addAttribute("players", players);
+
         return "dashboard";
     }
 }
-

@@ -1,8 +1,6 @@
 package com.example.sportsapp.model;
 
-import com.example.sportsapp.model.Team;
 import jakarta.persistence.*;
-
 import java.util.Objects;
 
 @Entity(name = "PLAYERS")
@@ -44,7 +42,14 @@ public class Players {
     }
 
     public void setTeam(Team team) {
+        // Maintain bi-directional consistency
+        if (this.team != null) {
+            this.team.removePlayer(this);
+        }
         this.team = team;
+        if (team != null) {
+            team.addPlayer(this);
+        }
     }
 
     public String getPlayer_stats() {

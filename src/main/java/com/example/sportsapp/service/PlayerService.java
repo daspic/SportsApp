@@ -40,10 +40,13 @@ public class PlayerService {
 
     // Register a new player with a unique ID check
     public String registerPlayers(Players players) {
-        Optional<Players> existingPlayers = findById(players.getPlayer_id());
-        if (existingPlayers.isPresent()) {
-            return "Player ID already taken";
-        }
+        Optional<Players> existingPlayer = findById(players.getPlayer_id());
+
+        // Use ifPresent for cleaner check
+        existingPlayer.ifPresent(player -> {
+            throw new IllegalArgumentException("Player ID already taken");
+        });
+
         save(players);
         return "Player registered successfully";
     }
