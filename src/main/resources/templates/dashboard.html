@@ -37,7 +37,7 @@
 <table border="1">
     <thead>
     <tr>
-        <th><a th:href="@{/dashboard(teamSort='id')}">ID</a></th>
+        <th><a th:href="@{/dashboard(teamSort='teamId')}">ID</a></th>
         <th><a th:href="@{/dashboard(teamSort='name')}">Name</a></th>
         <th>Description</th>
         <th>Creation Date</th>
@@ -62,7 +62,7 @@
     <thead>
     <tr>
         <th><a th:href="@{/dashboard(playerSort='id')}">ID</a></th>
-        <th><a th:href="@{/dashboard(playerSort='name')}">Name</a></th>
+        <th><a th:href="@{/dashboard(playerSort='user.name')}">Name</a></th>
         <th>Team ID</th>
         <th>Player Stats</th>
     </tr>
@@ -70,7 +70,7 @@
     <tbody>
     <!-- Loop through the 'players' list -->
     <tr th:each="player : ${players}">
-        <td th:text="${player.player_id}"></td>
+        <td th:text="${player.id}"></td>
         <td th:text="${player.user.name}"></td>
         <td th:text="${player.team.name}"></td>
         <td th:text="${player.player_stats}"></td>

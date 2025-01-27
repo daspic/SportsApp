@@ -1,7 +1,6 @@
 package com.example.sportsapp.service;
 
 import com.example.sportsapp.model.Players;
-import com.example.sportsapp.model.Team;
 import com.example.sportsapp.repository.PlayersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -37,7 +36,7 @@ public class PlayerService {
 
     // Register a new player with a unique ID check
     public String registerPlayers(Players players) {
-        Optional<Players> existingPlayer = findById(players.getPlayer_id());
+        Optional<Players> existingPlayer = findById(players.getId());
 
         // Use ifPresent for cleaner check
         existingPlayer.ifPresent(player -> {

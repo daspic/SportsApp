@@ -73,7 +73,7 @@ public class Team {
         return teamId;
     }
 
-    public void setTeam_id(Long team_id) {
+    public void setTeamId(Long team_id) {
         this.teamId = team_id;
     }
 

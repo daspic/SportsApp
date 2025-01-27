@@ -40,7 +40,7 @@ public class DashboardController {
         // Validate sort fields
         if (userSort == null || userSort.isEmpty()) userSort = "name";
         if (teamSort == null || teamSort.isEmpty()) teamSort = "teamId";
-        if (playerSort == null || playerSort.isEmpty()) playerSort = "player_id";
+        if (playerSort == null || playerSort.isEmpty()) playerSort = "id";
 
         // Fetch and sort the data
         List<User> users = userService.getAllUsersSorted(userSort, true); // Always ascending
