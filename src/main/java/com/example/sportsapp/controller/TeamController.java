@@ -20,6 +20,7 @@ public class TeamController {
 
     private TeamsService teamService;
     private PlayerService playerService;
+    private Team team;
 
     @Autowired
     public TeamController(TeamsService teamService, PlayerService playerService) {
@@ -39,7 +40,7 @@ public class TeamController {
         }
 
         // Fetch players associated with the team
-        List<Players> players = playerService.getPlayersByTeamId(teamId);
+        List<Players> players = team.getPlayers();
 
         // Sort the players list
         SortUtils.sortList(

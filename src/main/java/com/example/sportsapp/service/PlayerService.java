@@ -28,11 +28,6 @@ public class PlayerService {
         return playersRepository.findById(id);
     }
 
-    // Fetch all players belonging to a specific team
-    public List<Players> getPlayersByTeamId(Long teamId) {
-        return playersRepository.findByTeam_teamId(teamId);
-    }
-
     // Save or update a player
     public void save(Players players) {
         playersRepository.save(players);
