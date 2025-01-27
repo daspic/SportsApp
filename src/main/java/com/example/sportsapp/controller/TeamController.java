@@ -39,16 +39,21 @@ public class TeamController {
             return "error"; // Show an error page if the team is not found
         }
 
-        // Fetch players associated with the team
-        List<Players> players = team.getPlayers();
+        List<Players> players = playerService.getAllPlayersSorted(playerSort, true);
 
-        // Sort the players list
-        SortUtils.sortList(
-                players,
-                playerSort,
-                Comparator.comparing(p -> p.getUser().getName()),
-                Comparator.comparing(Players::getPlayer_id)
-        );
+        model.addAttribute("team", team);
+        model.addAttribute("players", players);
+
+//        // Fetch players associated with the team
+//        List<Players> players = team.getPlayers();
+//
+//        // Sort the players list
+//        SortUtils.sortList(
+//                players,
+//                playerSort,
+//                Comparator.comparing(p -> p.getUser().getName()),
+//                Comparator.comparing(Players::getPlayer_id)
+//        );
 
         // Add team and players to the model
         model.addAttribute("team", team);

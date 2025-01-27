@@ -3,6 +3,7 @@ package com.example.sportsapp.service;
 import com.example.sportsapp.model.Team;
 import com.example.sportsapp.repository.TeamsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -49,5 +50,14 @@ public class TeamsService {
     public Team getTeamById(Long teamId) {
         return teamsRepository.findById(teamId)
                 .orElseThrow(() -> new IllegalArgumentException("Team not found with ID: " + teamId));
+    }
+
+    public List<Team> getAllTeamsSorted(String sortField, boolean ascending) {
+        if (sortField == null || sortField.isEmpty()) {
+            sortField = "team_id";  // Default sort field
+        }
+
+        Sort sort = Sort.by(ascending ? Sort.Direction.ASC : Sort.Direction.DESC, sortField);
+        return teamsRepository.findAll(sort);
     }
 }

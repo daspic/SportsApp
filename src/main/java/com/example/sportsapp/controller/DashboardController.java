@@ -37,23 +37,34 @@ public class DashboardController {
             @RequestParam(value = "playerSort", required = false) String playerSort,
             Model model) {
 
-        // Fetch the list of users, teams, and players
-        List<User> users = userService.getAllUsers();
-        List<Team> teams = teamService.getAllTeams();
-        List<Players> players = playerService.getAllPlayers();
+        // Validate sort fields
+        if (userSort == null || userSort.isEmpty()) userSort = "name";
+        if (teamSort == null || teamSort.isEmpty()) teamSort = "teamId";
+        if (playerSort == null || playerSort.isEmpty()) playerSort = "player_id";
 
-        // Apply sorting if sorting parameters are provided
-        if (userSort != null) {
-            SortUtils.sortList(users, userSort, Comparator.comparing(User::getName), Comparator.comparing(User::getUser_id));
-        }
+        // Fetch and sort the data
+        List<User> users = userService.getAllUsersSorted(userSort, true); // Always ascending
+        List<Team> teams = teamService.getAllTeamsSorted(teamSort, true);
+        List<Players> players = playerService.getAllPlayersSorted(playerSort, true);
 
-        if (teamSort != null) {
-            SortUtils.sortList(teams, teamSort, Comparator.comparing(Team::getName), Comparator.comparing(Team::getTeam_id));
-        }
 
-        if (playerSort != null) {
-            SortUtils.sortList(players, playerSort, Comparator.comparing(p -> p.getUser().getName()), Comparator.comparing(Players::getPlayer_id));
-        }
+//        // Fetch the list of users, teams, and players
+//        List<User> users = userService.getAllUsers();
+//        List<Team> teams = teamService.getAllTeams();
+//        List<Players> players = playerService.getAllPlayers();
+
+//        // Apply sorting if sorting parameters are provided
+//        if (userSort != null) {
+//            SortUtils.sortList(users, userSort, Comparator.comparing(User::getName), Comparator.comparing(User::getUser_id));
+//        }
+//
+//        if (teamSort != null) {
+//            SortUtils.sortList(teams, teamSort, Comparator.comparing(Team::getName), Comparator.comparing(Team::getTeam_id));
+//        }
+//
+//        if (playerSort != null) {
+//            SortUtils.sortList(players, playerSort, Comparator.comparing(p -> p.getUser().getName()), Comparator.comparing(Players::getPlayer_id));
+//        }
 
         // Add sorted lists to the model
         model.addAttribute("users", users);

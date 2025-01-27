@@ -1,8 +1,10 @@
 package com.example.sportsapp.service;
 
 import com.example.sportsapp.model.Players;
+import com.example.sportsapp.model.Team;
 import com.example.sportsapp.repository.PlayersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,5 +46,10 @@ public class PlayerService {
 
         save(players);
         return "Player registered successfully";
+    }
+
+    public List<Players> getAllPlayersSorted(String sortField, boolean ascending) {
+        Sort sort = Sort.by(ascending ? Sort.Direction.ASC : Sort.Direction.DESC, sortField);
+        return playersRepository.findAll(sort);
     }
 }

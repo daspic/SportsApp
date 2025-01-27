@@ -4,6 +4,7 @@ import com.example.sportsapp.model.Team;
 import com.example.sportsapp.model.User;
 import com.example.sportsapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -53,5 +54,10 @@ public class UserService {
 
     public List<User> getAllUsers(){
         return userRepository.findAll();
+    }
+
+    public List<User> getAllUsersSorted(String sortField, boolean ascending) {
+        Sort sort = Sort.by(ascending ? Sort.Direction.ASC : Sort.Direction.DESC, sortField);
+        return userRepository.findAll(sort);
     }
 }
