@@ -22,7 +22,7 @@
     <tbody>
     <!-- Loop through the 'users' list -->
     <tr th:each="user : ${users}">
-        <td th:text="${user.user_id}"></td>
+        <td th:text="${user.id}"></td>
         <td th:text="${user.name}"></td>
         <td th:text="${user.email}"></td>
         <td th:text="${user.contactInfo}"></td>
@@ -37,7 +37,7 @@
 <table border="1">
     <thead>
     <tr>
-        <th><a th:href="@{/dashboard(teamSort='teamId')}">ID</a></th>
+        <th><a th:href="@{/dashboard(teamSort='id')}">ID</a></th>
         <th><a th:href="@{/dashboard(teamSort='name')}">Name</a></th>
         <th>Description</th>
         <th>Creation Date</th>
@@ -47,11 +47,11 @@
     <tbody>
     <!-- Loop through the 'teams' list -->
     <tr th:each="team : ${teams}">
-        <td th:text="${team.team_id}"></td>
-        <td><a th:href="@{/teams/{id}(id=${team.team_id})}" th:text="${team.name}"></a></td>
+        <td th:text="${team.id}"></td>
+        <td><a th:href="@{/teams/{id}(id=${team.id})}" th:text="${team.name}"></a></td>
         <td th:text="${team.description}"></td>
-        <td th:text="${team.created_at}"></td>
-        <td th:text="${team.updated_at}"></td>
+        <td th:text="${team.createdAt}"></td>
+        <td th:text="${team.updatedAt}"></td>
     </tr>
     </tbody>
 </table>
@@ -73,7 +73,7 @@
         <td th:text="${player.id}"></td>
         <td th:text="${player.user.name}"></td>
         <td th:text="${player.team.name}"></td>
-        <td th:text="${player.player_stats}"></td>
+        <td th:text="${player.playerStats}"></td>
     </tr>
     </tbody>
 </table>

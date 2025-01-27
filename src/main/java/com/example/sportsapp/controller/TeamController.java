@@ -1,6 +1,5 @@
 package com.example.sportsapp.controller;
 
-import com.example.sportsapp.SortUtils;
 import com.example.sportsapp.model.Players;
 import com.example.sportsapp.model.Team;
 import com.example.sportsapp.service.PlayerService;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -39,23 +37,12 @@ public class TeamController {
             return "error"; // Show an error page if the team is not found
         }
 
-        List<Players> players = playerService.getAllPlayersSorted(playerSort, true);
-
-        model.addAttribute("team", team);
-        model.addAttribute("players", players);
-
-//        // Fetch players associated with the team
-//        List<Players> players = team.getPlayers();
-//
-//        // Sort the players list
-//        SortUtils.sortList(
-//                players,
-//                playerSort,
-//                Comparator.comparing(p -> p.getUser().getName()),
-//                Comparator.comparing(Players::getPlayer_id)
-//        );
-
-        // Add team and players to the model
+        // Fetch players only for the selected team, and sort them by the specified field
+        List<Players> players = playerService.getPlayersByTeamSorted(
+                team,
+                playerSort != null ? playerSort : "id", // Default to sorting by player ID
+                true // You can set this to false for descending order if needed
+        );
         model.addAttribute("team", team);
         model.addAttribute("players", players);
 

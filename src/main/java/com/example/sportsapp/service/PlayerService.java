@@ -1,6 +1,7 @@
 package com.example.sportsapp.service;
 
 import com.example.sportsapp.model.Players;
+import com.example.sportsapp.model.Team;
 import com.example.sportsapp.repository.PlayersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -48,7 +49,29 @@ public class PlayerService {
     }
 
     public List<Players> getAllPlayersSorted(String sortField, boolean ascending) {
-        Sort sort = Sort.by(ascending ? Sort.Direction.ASC : Sort.Direction.DESC, sortField);
+        Sort sort;
+
+        // Check if the sort field is "user.name" (for example)
+        if ("user.name".equals(sortField)) {
+            sort = Sort.by(ascending ? Sort.Direction.ASC : Sort.Direction.DESC, "user.name");
+        } else {
+            sort = Sort.by(ascending ? Sort.Direction.ASC : Sort.Direction.DESC, "id");
+        }
+
         return playersRepository.findAll(sort);
+    }
+
+    public List<Players> getPlayersByTeamSorted(Team team, String sortField, boolean ascending) {
+        Sort sort;
+
+        // Check if the sort field is "user.name" or other valid fields
+        if ("user.name".equals(sortField)) {
+            sort = Sort.by(ascending ? Sort.Direction.ASC : Sort.Direction.DESC, "user.name");
+        } else {
+            sort = Sort.by(ascending ? Sort.Direction.ASC : Sort.Direction.DESC, sortField);
+        }
+
+        // Fetch players for the given team and sorted by the given field
+        return playersRepository.findAllByTeam(team, sort);
     }
 }

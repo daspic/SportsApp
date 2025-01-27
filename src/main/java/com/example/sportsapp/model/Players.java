@@ -19,7 +19,8 @@ public class Players {
     @JoinColumn(name = "team_id", nullable = false)
     private Team team;
 
-    private String player_stats;
+    @Column(name="player_stats")
+    private String playerStats;
 
     // Getters and setters
     public Long getId() {
@@ -53,12 +54,12 @@ public class Players {
         }
     }
 
-    public String getPlayer_stats() {
-        return player_stats;
+    public String getPlayerStats() {
+        return playerStats;
     }
 
-    public void setPlayer_stats(String player_stats) {
-        this.player_stats = player_stats;
+    public void setPlayerStats(String playerStats) {
+        this.playerStats = playerStats;
     }
 
     @Override

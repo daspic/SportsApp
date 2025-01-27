@@ -35,36 +35,18 @@ public class DashboardController {
             @RequestParam(value = "userSort", required = false) String userSort,
             @RequestParam(value = "teamSort", required = false) String teamSort,
             @RequestParam(value = "playerSort", required = false) String playerSort,
+            @RequestParam(value = "teamId", required = false) Long teamId, // Add this to filter players by team
             Model model) {
 
         // Validate sort fields
-        if (userSort == null || userSort.isEmpty()) userSort = "name";
-        if (teamSort == null || teamSort.isEmpty()) teamSort = "teamId";
+        if (userSort == null || userSort.isEmpty()) userSort = "id";
+        if (teamSort == null || teamSort.isEmpty()) teamSort = "id";
         if (playerSort == null || playerSort.isEmpty()) playerSort = "id";
-
+        System.out.println("teamSort parameter: " + teamSort);
         // Fetch and sort the data
         List<User> users = userService.getAllUsersSorted(userSort, true); // Always ascending
         List<Team> teams = teamService.getAllTeamsSorted(teamSort, true);
-        List<Players> players = playerService.getAllPlayersSorted(playerSort, true);
-
-
-//        // Fetch the list of users, teams, and players
-//        List<User> users = userService.getAllUsers();
-//        List<Team> teams = teamService.getAllTeams();
-//        List<Players> players = playerService.getAllPlayers();
-
-//        // Apply sorting if sorting parameters are provided
-//        if (userSort != null) {
-//            SortUtils.sortList(users, userSort, Comparator.comparing(User::getName), Comparator.comparing(User::getUser_id));
-//        }
-//
-//        if (teamSort != null) {
-//            SortUtils.sortList(teams, teamSort, Comparator.comparing(Team::getName), Comparator.comparing(Team::getTeam_id));
-//        }
-//
-//        if (playerSort != null) {
-//            SortUtils.sortList(players, playerSort, Comparator.comparing(p -> p.getUser().getName()), Comparator.comparing(Players::getPlayer_id));
-//        }
+        List<Players> players = playerService.getAllPlayersSorted(playerSort, true); // Show all players if no team is selected
 
         // Add sorted lists to the model
         model.addAttribute("users", users);

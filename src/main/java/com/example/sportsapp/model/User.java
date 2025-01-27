@@ -8,7 +8,8 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_seq")
     @SequenceGenerator(name = "users_seq", sequenceName = "users_seq", allocationSize = 1)
-    private Long user_id;
+    @Column(name="user_id")
+    private Long id;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -16,27 +17,21 @@ public class User {
     @Column(nullable = false)
     private String password; // Encrypted password
 
-    //    @Column(nullable = false)
     private String role;
 
     private String name;
 
+    @Column(name="contact_info")
     private String contactInfo;
 
-    // For debugging
-    @Override
-    public String toString() {
-        return "User{id=" + user_id + ", name='" + name + "', email='" + email + "', role='" + role + "'}";
-    }
-    /// //////////////////////////////
-
     // Getters and setters
-    public Long getUser_id() {
-        return user_id;
+
+    public Long getId() {
+        return id;
     }
 
-    public void setUser_id(Long user_id) {
-        this.user_id = user_id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getEmail() {

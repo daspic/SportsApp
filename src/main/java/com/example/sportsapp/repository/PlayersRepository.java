@@ -15,4 +15,5 @@ public interface PlayersRepository extends JpaRepository<Players, Long> {
 
     List<Players> findAllByTeam(Team team, Sort sort);
 
+    List<Players> findAll(Sort sort);
 }

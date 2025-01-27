@@ -13,31 +13,31 @@ public class Team {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "teams_seq")
     @SequenceGenerator(name = "teams_seq", sequenceName = "teams_seq", allocationSize = 1)
     @Column(name = "team_id")
-    private Long teamId;
+    private Long Id;
 
     @Column(nullable = false)
     private String name;
 
     private String description;
 
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime created_at;
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 
-    @Column(nullable = false)
-    private LocalDateTime updated_at;
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Players> players = new ArrayList<>();
 
     @PrePersist
     protected void onCreate() {
-        created_at = LocalDateTime.now();
-        updated_at = LocalDateTime.now();
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
     }
 
     @PreUpdate
     protected void onUpdate() {
-        updated_at = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
     }
 
     // Add player to the team
@@ -69,28 +69,28 @@ public class Team {
         this.description = description;
     }
 
-    public Long getTeam_id() {
-        return teamId;
+    public Long getId() {
+        return Id;
     }
 
-    public void setTeamId(Long team_id) {
-        this.teamId = team_id;
+    public void setId(Long team_id) {
+        this.Id = team_id;
     }
 
-    public LocalDateTime getCreated_at() {
-        return created_at;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(LocalDateTime created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdated_at() {
-        return updated_at;
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setUpdated_at(LocalDateTime updated_at) {
-        this.updated_at = updated_at;
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public List<Players> getPlayers() {
@@ -106,11 +106,11 @@ public class Team {
         if (this == o) return true;
         if (!(o instanceof Team)) return false;
         Team team = (Team) o;
-        return Objects.equals(teamId, team.teamId);
+        return Objects.equals(Id, team.Id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(teamId);
+        return Objects.hash(Id);
     }
 }
