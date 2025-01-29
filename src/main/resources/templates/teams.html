@@ -5,25 +5,30 @@
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-<!--<h1>Teams</h1>-->
 
-<!-- Teams Table -->
 <h3>Teams</h3>
+
+<form method="get" th:action="@{/teams}">  <label for="pageSize">Teams per page:</label>
+    <select id="pageSize" name="size" onchange="this.form.submit()">
+        <option value="5" th:selected="${pageSize == 5}">Show 5 teams</option>
+        <option value="10" th:selected="${pageSize == 10}">Show 10 teams</option>
+        <option value="20" th:selected="${pageSize == 20}">Show 20 teams</option>
+    </select>
+    <input type="hidden" name="teamSort" th:value="${teamSort}" />
+    <input type="hidden" name="page" value="0"/> <input type="hidden" name="from" value="teams"/> </form>
+
 <table border="1">
     <thead>
     <tr>
-        <th><a th:href="@{/teams(teamSort='id')}">ID</a></th>
-        <th><a th:href="@{/teams(teamSort='name')}">Name</a></th>
+        <th><a th:href="@{/teams(page=0, size=${pageSize}, teamSort='id')}">ID</a></th>
+        <th><a th:href="@{/teams(page=0, size=${pageSize}, teamSort='name')}">Name</a></th>
         <th>Description</th>
         <th>Creation Date</th>
         <th>Updated Date</th>
     </tr>
     </thead>
     <tbody>
-    <!-- Loop through the 'teams' list -->
-    <tr th:each="team : ${teams}">
-        <td th:text="${team.id}"></td>
-<!--        <td><a th:href="@{/teams/{id}(id=${team.id})}" th:text="${team.name}"></a></td>-->
+    <tr th:if="${teamPage != null}" th:each="team : ${teamPage.content}">  <td th:text="${team.id}"></td>
         <td><a th:href="@{/teams/{id}(id=${team.id}, from='teams')}" th:text="${team.name}"></a></td>
         <td th:text="${team.description}"></td>
         <td th:text="${team.createdAt}"></td>
@@ -32,7 +37,12 @@
     </tbody>
 </table>
 
-<a href="/dashboard">Back to Dashboard</a>
+<div>
+    <a th:if="${currentPage > 0}" th:href="@{/teams(page=${currentPage - 1}, size=${pageSize}, teamSort=${teamSort})}">Previous</a>
+    <span> Page <span th:text="${currentPage + 1}"></span> of <span th:text="${teamPage.totalPages}"></span> </span>  <a th:if="${currentPage + 1 < teamPage.totalPages}" th:href="@{/teams(page=${currentPage + 1}, size=${pageSize}, teamSort=${teamSort})}">Next</a>
+</div>
+
+<a th:href="@{/dashboard}">Back to Dashboard</a>
 
 </body>
 </html>

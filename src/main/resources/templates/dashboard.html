@@ -9,18 +9,28 @@
 
 <!-- Users Table -->
 <h3><a th:href="@{/users}">Users</a></h3>
+<form method="get" action="#" th:action="@{/dashboard}">
+    <label for="userSize">Users per page:</label>
+    <select id="userSize" name="userSize" onchange="this.form.submit()">
+        <option value="5" th:selected="${userSize == 5}">Show 5 users</option>
+        <option value="10" th:selected="${userSize == 10}">Show 10 users</option>
+        <option value="20" th:selected="${userSize == 20}">Show 20 users</option>
+    </select>
+    <input type="hidden" name="userSort" th:value="${userSort}" />
+</form>
+
 <table border="1">
     <thead>
     <tr>
-        <th><a th:href="@{/dashboard(userSort='id')}">ID</a></th>
-        <th><a th:href="@{/dashboard(userSort='name')}">Name</a></th>
+        <th><a th:href="@{/dashboard(userSort='id', userPage=0, userSize=${userSize})}">ID</a></th>
+        <th><a th:href="@{/dashboard(userSort='name', userPage=0, userSize=${userSize})}">Name</a></th>
         <th>Email</th>
         <th>Contact Info</th>
         <th><a th:href="@{/dashboard(userSort='role')}">Role</a></th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="user : ${users}">
+    <tr th:if="${userPageData != null}" th:each="user : ${userPageData.content}">
         <td th:text="${user.id}"></td>
         <td th:text="${user.name}"></td>
         <td th:text="${user.email}"></td>
@@ -30,8 +40,25 @@
     </tbody>
 </table>
 
+<!-- User Pagination Controls -->
+<div>
+    <a th:if="${userPage > 0}" th:href="@{/dashboard(userPage=${userPage - 1}, userSize=${userSize}, userSort=${userSort})}">Previous</a>
+    <span th:text="${userPage + 1}"></span> / <span th:text="${userPageData.totalPages}"></span>
+    <a th:if="${userPage + 1 < userPageData.totalPages}" th:href="@{/dashboard(userPage=${userPage + 1}, userSize=${userSize}, userSort=${userSort})}">Next</a>
+</div>
+
 <!-- Teams Table -->
 <h3><a th:href="@{/teams}">Teams</a></h3>
+<form method="get" action="#" th:action="@{/dashboard}">
+    <label for="teamSize">Teams per page:</label>
+    <select id="teamSize" name="teamSize" onchange="this.form.submit()">
+        <option value="5" th:selected="${teamSize == 5}">Show 5 teams</option>
+        <option value="10" th:selected="${teamSize == 10}">Show 10 teams</option>
+        <option value="20" th:selected="${teamSize == 20}">Show 20 teams</option>
+    </select>
+    <input type="hidden" name="teamSort" th:value="${teamSort}" />
+</form>
+
 <button onclick="document.getElementById('addTeamForm').style.display='block'">Add Team</button>
 
 <!-- Add Team Form (Initially Hidden) -->
@@ -53,15 +80,15 @@
 <table border="1">
     <thead>
     <tr>
-        <th><a th:href="@{/dashboard(teamSort='id')}">ID</a></th>
-        <th><a th:href="@{/dashboard(teamSort='name')}">Name</a></th>
+        <th><a th:href="@{/dashboard(teamSort='id', teamPage=0, teamSize=${teamSize})}">ID</a></th>
+        <th><a th:href="@{/dashboard(teamSort='name', teamPage=0, teamSize=${teamSize})}">Name</a></th>
         <th>Description</th>
         <th><a th:href="@{/dashboard(teamSort='createdAt')}">Creation Date</a></th>
         <th><a th:href="@{/dashboard(teamSort='updatedAt')}">Updated Date</a></th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="team : ${teams}">
+    <tr th:if="${teamPageData != null}" th:each="team : ${teamPageData.content}">
         <td><a th:href="@{/teams/{id}(id=${team.id}, from='dashboard')}" th:text="${team.id}"></a></td>
         <td><a th:href="@{/teams/{id}(id=${team.id}, from='dashboard')}" th:text="${team.name}"></a></td>
         <td th:text="${team.description}"></td>
@@ -71,19 +98,36 @@
     </tbody>
 </table>
 
-<!-- Players Table-->
+<!-- Team Pagination Controls -->
+<div>
+    <a th:if="${teamPage > 0}" th:href="@{/dashboard(teamPage=${teamPage - 1}, teamSize=${teamSize}, teamSort=${teamSort})}">Previous</a>
+    <span th:text="${teamPage + 1}"></span> / <span th:text="${teamPageData.totalPages}"></span>
+    <a th:if="${teamPage + 1 < teamPageData.totalPages}" th:href="@{/dashboard(teamPage=${teamPage + 1}, teamSize=${teamSize}, teamSort=${teamSort})}">Next</a>
+</div>
+
+<!-- Players Table -->
 <h3><a th:href="@{/players}">Players</a></h3>
+<form method="get" action="#" th:action="@{/dashboard}">
+    <label for="playerSize">Players per page:</label>
+    <select id="playerSize" name="playerSize" onchange="this.form.submit()">
+        <option value="5" th:selected="${playerSize == 5}">Show 5 players</option>
+        <option value="10" th:selected="${playerSize == 10}">Show 10 players</option>
+        <option value="20" th:selected="${playerSize == 20}">Show 20 players</option>
+    </select>
+    <input type="hidden" name="playerSort" th:value="${playerSort}" />
+</form>
+
 <table border="1">
     <thead>
     <tr>
-        <th><a th:href="@{/dashboard(playerSort='id')}">ID</a></th>
-        <th><a th:href="@{/dashboard(playerSort='user.name')}">Name</a></th>
-        <th>Team ID</th>
+        <th><a th:href="@{/dashboard(playerSort='id', playerPage=0, playerSize=${playerSize})}">ID</a></th>
+        <th><a th:href="@{/dashboard(playerSort='user.name', playerPage=0, playerSize=${playerSize})}">Name</a></th>
+        <th>Team</th>
         <th>Player Stats</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="player : ${players}">
+    <tr th:if="${playerPageData != null}" th:each="player : ${playerPageData.content}">
         <td th:text="${player.id}"></td>
         <td th:text="${player.user.name}"></td>
         <td><a th:href="@{/teams/{id}(id=${player.team.id})}" th:text="${player.team.name}"></a></td>
@@ -91,6 +135,13 @@
     </tr>
     </tbody>
 </table>
+
+<!-- Player Pagination Controls -->
+<div>
+    <a th:if="${playerPage > 0}" th:href="@{/dashboard(playerPage=${playerPage - 1}, playerSize=${playerSize}, playerSort=${playerSort})}">Previous</a>
+    <span th:text="${playerPage + 1}"></span> / <span th:text="${playerPageData.totalPages}"></span>
+    <a th:if="${playerPage + 1 < playerPageData.totalPages}" th:href="@{/dashboard(playerPage=${playerPage + 1}, playerSize=${playerSize}, playerSort=${playerSort})}">Next</a>
+</div>
 
 </body>
 </html>

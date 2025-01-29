@@ -3,6 +3,8 @@ package com.example.sportsapp.service;
 import com.example.sportsapp.model.Team;
 import com.example.sportsapp.repository.TeamsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -62,8 +64,7 @@ public class TeamsService {
         return teamsRepository.findAll(sort);
     }
 
-    public Team createTeam(Team team) {
-        return teamsRepository.save(team);
+    public Page<Team> getAllTeamsPaginated(Pageable pageable) {
+        return teamsRepository.findAll(pageable);
     }
-
 }

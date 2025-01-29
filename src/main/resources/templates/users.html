@@ -5,23 +5,35 @@
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-<!--<h1>Users</h1>-->
+
+<h3>Users</h3>
+
+<!-- Page Size Dropdown -->
+<form method="get" action="/users">
+    <label for="pageSize">Users per page:</label>
+    <select id="pageSize" name="size" onchange="this.form.submit()">
+        <option value="5" th:selected="${pageSize == 5}">Show 5 users</option>
+        <option value="10" th:selected="${pageSize == 10}">Show 10 users</option>
+        <option value="20" th:selected="${pageSize == 20}">Show 20 users</option>
+    </select>
+    <input type="hidden" name="userSort" th:value="${userSort}" />
+    <input type="hidden" name="page" value="0"/>
+</form>
 
 <!-- Users Table -->
-<h3>Users</h3>
 <table border="1">
     <thead>
     <tr>
-        <th><a th:href="@{/users(userSort='id')}">ID</a></th>
-        <th><a th:href="@{/users(userSort='name')}">Name</a></th>
+        <th><a th:href="@{/users(page=0, size=${pageSize}, userSort='id')}">ID</a></th>
+        <th><a th:href="@{/users(page=0, size=${pageSize}, userSort='name')}">Name</a></th>
         <th>Email</th>
         <th>Contact Info</th>
         <th>Role</th>
     </tr>
     </thead>
     <tbody>
-    <!-- Loop through the 'users' list -->
-    <tr th:each="user : ${users}">
+    <!-- Loop through the paginated 'userPage' list -->
+    <tr th:if="${userPage != null}" th:each="user : ${userPage.content}">
         <td th:text="${user.id}"></td>
         <td th:text="${user.name}"></td>
         <td th:text="${user.email}"></td>
@@ -30,6 +42,15 @@
     </tr>
     </tbody>
 </table>
+
+<!-- Pagination Controls -->
+<div>
+    <a th:if="${currentPage > 0}" th:href="@{/users(page=${currentPage - 1}, size=${pageSize}, userSort=${userSort})}">Previous</a>
+
+    <span> Page <span th:text="${currentPage + 1}"></span> of <span th:text="${userPage.totalPages}"></span> </span>
+
+    <a th:if="${currentPage + 1 < userPage.totalPages}" th:href="@{/users(page=${currentPage + 1}, size=${pageSize}, userSort=${userSort})}">Next</a>
+</div>
 
 <!-- Back to Dashboard Link -->
 <p><a th:href="@{/dashboard}">Back to Dashboard</a></p>

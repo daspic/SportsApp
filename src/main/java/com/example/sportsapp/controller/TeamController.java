@@ -5,6 +5,7 @@ import com.example.sportsapp.model.Team;
 import com.example.sportsapp.service.PlayerService;
 import com.example.sportsapp.service.TeamsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,9 @@ public class TeamController {
     @GetMapping("/teams/{id}")
     public String getTeamById(
             @PathVariable("id") Long teamId,
-            @RequestParam(value = "playerSort", required = false) String playerSort,
+            @RequestParam(value = "playerSort", required = false, defaultValue = "id") String playerSort,
+            @RequestParam(value = "playerPage", required = false, defaultValue = "0") int playerPage,
+            @RequestParam(value = "playerSize", required = false, defaultValue = "10") int playerSize,
             @RequestParam(value = "from", required = false, defaultValue = "dashboard") String from,
             Model model) {
 
@@ -36,15 +39,17 @@ public class TeamController {
             return "error"; // Show an error page if the team is not found
         }
 
-        // Fetch players only for the selected team, and sort them by the specified field
-        List<Player> players = playerService.getPlayersByTeamSorted(
-                team,
-                playerSort != null ? playerSort : "user.name", // Default to sorting by player name
-                true // You can set this to false for descending order if needed
+        // Fetch paginated and sorted players for the team
+        Page<Player> playerPageData = playerService.getPlayersByTeamPaginated(
+                team, playerSort, playerPage, playerSize, true // Sort ascending
         );
+
         model.addAttribute("team", team);
-        model.addAttribute("players", players);
-        model.addAttribute("from", from); // Pass the 'from' value to the template
+        model.addAttribute("playerPageData", playerPageData);
+        model.addAttribute("playerPage", playerPage);
+        model.addAttribute("playerSize", playerSize);
+        model.addAttribute("playerSort", playerSort);
+        model.addAttribute("from", from);
 
         return "teamDetails"; // The view to display a single team's details
     }

@@ -4,6 +4,9 @@ import com.example.sportsapp.model.Player;
 import com.example.sportsapp.model.Team;
 import com.example.sportsapp.repository.PlayersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -73,5 +76,15 @@ public class PlayerService {
 
         // Fetch players for the given team and sorted by the given field
         return playersRepository.findAllByTeam(team, sort);
+    }
+
+    public Page<Players> getAllPlayersPaginated(Pageable pageable) {
+        return playersRepository.findAll(pageable);
+    }
+
+    public Page<Players> getPlayersByTeamPaginated(Team team, String sortBy, int page, int size, boolean ascending) {
+        Sort sort = ascending ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return playersRepository.findByTeam(team, pageable);
     }
 }
