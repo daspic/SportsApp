@@ -2,6 +2,8 @@ package com.example.sportsapp.repository;
 
 import com.example.sportsapp.model.Players;
 import com.example.sportsapp.model.Team;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -16,4 +18,6 @@ public interface PlayersRepository extends JpaRepository<Players, Long> {
     List<Players> findAllByTeam(Team team, Sort sort);
 
     List<Players> findAll(Sort sort);
+
+    Page<Players> findByTeam(Team team, Pageable pageable); // Add this method
 }

@@ -28,12 +28,5 @@ public class UserController {
         return "redirect:/login";
     }
 
-//    @GetMapping("/dashboard")
-//    public String getUsers(Model model) {
-//        List<User> usersList = userService.getAllUsers();
-//        model.addAttribute("users", usersList);
-//        model.addAttribute("message", "This is a message!");
-//
-//        return "dashboard";  // Thymeleaf template
-//    }
+
 }
