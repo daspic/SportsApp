@@ -35,6 +35,7 @@
     </tbody>
 </table>
 
-<a href="/dashboard">Back to Dashboard</a>
+<!--<a href="/dashboard">Back to Dashboard</a>-->
+<a th:href="${from == 'teams' ? '/teams' : '/dashboard'}" th:text="${from == 'teams' ? 'Back to Teams' : 'Back to Dashboard'}"></a>
 </body>
 </html>

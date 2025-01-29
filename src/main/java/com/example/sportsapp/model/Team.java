@@ -13,7 +13,7 @@ public class Team {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "teams_seq")
     @SequenceGenerator(name = "teams_seq", sequenceName = "teams_seq", allocationSize = 1)
     @Column(name = "team_id")
-    private Long Id;
+    private Long id;
 
     @Column(nullable = false)
     private String name;
@@ -70,11 +70,11 @@ public class Team {
     }
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long team_id) {
-        this.Id = team_id;
+        this.id = team_id;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -106,11 +106,11 @@ public class Team {
         if (this == o) return true;
         if (!(o instanceof Team)) return false;
         Team team = (Team) o;
-        return Objects.equals(Id, team.Id);
+        return Objects.equals(id, team.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(Id);
+        return Objects.hash(id);
     }
 }

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Players</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<!--<h1>Players</h1>-->
+
+<!-- Players Table -->
+<h3>Players</h3>
+<table border="1">
+    <thead>
+    <tr>
+        <th><a th:href="@{/players(playerSort='id')}">ID</a></th>
+        <th><a th:href="@{/players(playerSort='user.name')}">Name</a></th>
+        <th>Team ID</th>
+        <th>Player Stats</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Loop through the 'players' list -->
+    <tr th:each="player : ${players}">
+        <td th:text="${player.id}"></td>
+        <td th:text="${player.user.name}"></td>
+        <td th:text="${player.team.name}"></td>
+        <td th:text="${player.playerStats}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<a href="/dashboard">Back to Dashboard</a>
+</body>
+</html>
