@@ -28,6 +28,7 @@ public class TeamController {
     public String getTeamById(
             @PathVariable("id") Long teamId,
             @RequestParam(value = "playerSort", required = false) String playerSort,
+            @RequestParam(value = "from", required = false, defaultValue = "dashboard") String from,
             Model model) {
 
         Team team = teamService.getTeamById(teamId);
@@ -43,6 +44,7 @@ public class TeamController {
         );
         model.addAttribute("team", team);
         model.addAttribute("players", players);
+        model.addAttribute("from", from); // Pass the 'from' value to the template
 
         return "teamDetails"; // The view to display a single team's details
     }

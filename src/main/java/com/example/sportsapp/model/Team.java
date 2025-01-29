@@ -73,8 +73,8 @@ public class Team {
         return id;
     }
 
-    protected void setId(Long id) {
-        this.id = id;
+    public void setId(Long team_id) {
+        this.id = team_id;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -107,11 +107,11 @@ public class Team {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Team team = (Team) o;
-        return Objects.equals(id, team.id) && Objects.equals(name, team.name) && Objects.equals(description, team.description);
+        return Objects.equals(id, team.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description);
+        return Objects.hash(id);
     }
 }

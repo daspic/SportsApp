@@ -8,7 +8,7 @@
 <h1>Dashboard</h1>
 
 <!-- Users Table -->
-<h3>Users</h3>
+<h3><a th:href="@{/users}">Users</a></h3>
 <table border="1">
     <thead>
     <tr>
@@ -31,7 +31,7 @@
 </table>
 
 <!-- Teams Table -->
-<h3>Teams</h3>
+<h3><a th:href="@{/teams}">Teams</a></h3>
 <button onclick="document.getElementById('addTeamForm').style.display='block'">Add Team</button>
 
 <!-- Add Team Form (Initially Hidden) -->
@@ -62,8 +62,8 @@
     </thead>
     <tbody>
     <tr th:each="team : ${teams}">
-        <td><a th:href="@{/teams/{id}(id=${team.id})}" th:text="${team.id}"></a></td>
-        <td><a th:href="@{/teams/{id}(id=${team.id})}" th:text="${team.name}"></a></td>
+        <td><a th:href="@{/teams/{id}(id=${team.id}, from='dashboard')}" th:text="${team.id}"></a></td>
+        <td><a th:href="@{/teams/{id}(id=${team.id}, from='dashboard')}" th:text="${team.name}"></a></td>
         <td th:text="${team.description}"></td>
         <td th:text="${team.createdAt}"></td>
         <td th:text="${team.updatedAt}"></td>
@@ -72,7 +72,7 @@
 </table>
 
 <!-- Players Table-->
-<h3>Players</h3>
+<h3><a th:href="@{/players}">Players</a></h3>
 <table border="1">
     <thead>
     <tr>

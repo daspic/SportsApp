@@ -58,5 +58,30 @@ public class DashboardController {
         return "dashboard";
     }
 
+    @GetMapping("/users")
+    public String showUsersDashboard(Model model, @RequestParam(value = "userSort", required = false) String userSort) {
+        if (userSort == null || userSort.isEmpty()) userSort = "id";
 
+        // Fetch and sort users (if needed)
+        List<User> users = userService.getAllUsersSorted(userSort, true);
+        model.addAttribute("users", users);
+
+        return "Users"; // Render the users.html template
+    }
+
+    @GetMapping("/teams")
+    public String showTeamsDashboard(Model model, @RequestParam(value = "teamSort", required = false) String teamSort){
+        if (teamSort == null || teamSort.isEmpty()) teamSort = "id";
+        List<Team> teams = teamService.getAllTeamsSorted(teamSort, true);
+        model.addAttribute("teams", teams);
+        return "Teams";
+    }
+
+    @GetMapping("/players")
+    public String showPlayersDashboard(Model model, @RequestParam(value = "playerSort", required = false) String playerSort){
+        if (playerSort == null || playerSort.isEmpty()) playerSort = "id";
+        List<Player> players = playerService.getAllPlayersSorted(playerSort, true); // Show all players if no team is selected
+        model.addAttribute("players", players);
+        return "Players";
+    }
 }
