@@ -1,6 +1,6 @@
 package com.example.sportsapp.controller;
 
-import com.example.sportsapp.model.Players;
+import com.example.sportsapp.model.Player;
 import com.example.sportsapp.model.Team;
 import com.example.sportsapp.service.PlayerService;
 import com.example.sportsapp.service.TeamsService;
@@ -38,9 +38,9 @@ public class TeamController {
         }
 
         // Fetch players only for the selected team, and sort them by the specified field
-        List<Players> players = playerService.getPlayersByTeamSorted(
+        List<Player> players = playerService.getPlayersByTeamSorted(
                 team,
-                playerSort != null ? playerSort : "id", // Default to sorting by player ID
+                playerSort != null ? playerSort : "user.name", // Default to sorting by player name
                 true // You can set this to false for descending order if needed
         );
         model.addAttribute("team", team);

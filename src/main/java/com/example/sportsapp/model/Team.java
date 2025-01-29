@@ -13,7 +13,7 @@ public class Team {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "teams_seq")
     @SequenceGenerator(name = "teams_seq", sequenceName = "teams_seq", allocationSize = 1)
     @Column(name = "team_id")
-    private Long Id;
+    private Long id;
 
     @Column(nullable = false)
     private String name;
@@ -26,8 +26,8 @@ public class Team {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Players> players = new ArrayList<>();
+    @OneToMany(mappedBy = "team")
+    private List<Player> players = new ArrayList<>();
 
     @PrePersist
     protected void onCreate() {
@@ -41,13 +41,13 @@ public class Team {
     }
 
     // Add player to the team
-    public void addPlayer(Players player) {
+    public void addPlayer(Player player) {
         players.add(player);
         player.setTeam(this); // Maintain bidirectional consistency
     }
 
     // Remove player from the team
-    public void removePlayer(Players player) {
+    public void removePlayer(Player player) {
         players.remove(player);
         player.setTeam(null); // Maintain bidirectional consistency
     }
@@ -70,18 +70,18 @@ public class Team {
     }
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
-    public void setId(Long team_id) {
-        this.Id = team_id;
+    protected void setId(Long id) {
+        this.id = id;
     }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    protected void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -89,28 +89,29 @@ public class Team {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    protected void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 
-    public List<Players> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 
-    public void setPlayers(List<Players> players) {
-        this.players = players;
+    protected void setPlayers(List<Player> players) {
+        this.players.clear();
+        this.players.addAll(players);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Team)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Team team = (Team) o;
-        return Objects.equals(Id, team.Id);
+        return Objects.equals(id, team.id) && Objects.equals(name, team.name) && Objects.equals(description, team.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(Id);
+        return Objects.hash(id, name, description);
     }
 }

@@ -1,6 +1,6 @@
 package com.example.sportsapp.repository;
 
-import com.example.sportsapp.model.Players;
+import com.example.sportsapp.model.Player;
 import com.example.sportsapp.model.Team;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,12 +8,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface PlayersRepository extends JpaRepository<Players, Long> {
+public interface PlayersRepository extends JpaRepository<Player, Long> {
 
     // Fetch a single player by their ID
-    Optional<Players> findById(Long id);
+    Optional<Player> findById(Long id);
 
-    List<Players> findAllByTeam(Team team, Sort sort);
+    List<Player> findAllByTeam(Team team, Sort sort);
 
-    List<Players> findAll(Sort sort);
+    List<Player> findAll(Sort sort);
 }

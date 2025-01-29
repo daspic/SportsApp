@@ -1,6 +1,6 @@
 package com.example.sportsapp.service;
 
-import com.example.sportsapp.model.Players;
+import com.example.sportsapp.model.Player;
 import com.example.sportsapp.model.Team;
 import com.example.sportsapp.repository.PlayersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,23 +21,23 @@ public class PlayerService {
     }
 
     // Fetch all players
-    public List<Players> getAllPlayers() {
+    public List<Player> getAllPlayers() {
         return playersRepository.findAll();
     }
 
     // Fetch a single player by their ID
-    public Optional<Players> findById(Long id) {
+    public Optional<Player> findById(Long id) {
         return playersRepository.findById(id);
     }
 
     // Save or update a player
-    public void save(Players players) {
-        playersRepository.save(players);
+    public void save(Player player) {
+        playersRepository.save(player);
     }
 
     // Register a new player with a unique ID check
-    public String registerPlayers(Players players) {
-        Optional<Players> existingPlayer = findById(players.getId());
+    public String registerPlayers(Player players) {
+        Optional<Player> existingPlayer = findById(players.getId());
 
         // Use ifPresent for cleaner check
         existingPlayer.ifPresent(player -> {
@@ -48,7 +48,7 @@ public class PlayerService {
         return "Player registered successfully";
     }
 
-    public List<Players> getAllPlayersSorted(String sortField, boolean ascending) {
+    public List<Player> getAllPlayersSorted(String sortField, boolean ascending) {
         Sort sort;
 
         // Check if the sort field is "user.name" (for example)
@@ -61,7 +61,7 @@ public class PlayerService {
         return playersRepository.findAll(sort);
     }
 
-    public List<Players> getPlayersByTeamSorted(Team team, String sortField, boolean ascending) {
+    public List<Player> getPlayersByTeamSorted(Team team, String sortField, boolean ascending) {
         Sort sort;
 
         // Check if the sort field is "user.name" or other valid fields

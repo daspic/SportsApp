@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity(name = "PLAYERS")
-public class Players {
+public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "players_seq")
     @SequenceGenerator(name = "players_seq", sequenceName = "players_seq", allocationSize = 1)
@@ -65,9 +65,9 @@ public class Players {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Players)) return false;
-        Players players = (Players) o;
-        return Objects.equals(id, players.id);
+        if (!(o instanceof Player)) return false;
+        Player player = (Player) o;
+        return Objects.equals(id, player.id);
     }
 
     @Override
