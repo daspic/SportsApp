@@ -81,7 +81,7 @@ public class Team {
         return createdAt;
     }
 
-    protected void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -89,7 +89,7 @@ public class Team {
         return updatedAt;
     }
 
-    protected void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 

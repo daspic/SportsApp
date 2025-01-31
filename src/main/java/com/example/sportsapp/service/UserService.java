@@ -46,16 +46,6 @@ public class UserService {
         return "User registered successfully";
     }
 
-    public void saveAdminUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole("ADMIN"); // Set default role
-        userRepository.save(user);
-    }
-
-    public List<User> getAllUsers(){
-        return userRepository.findAll();
-    }
-
     public List<User> getAllUsersSorted(String sortField, boolean ascending) {
         Sort sort = Sort.by(ascending ? Sort.Direction.ASC : Sort.Direction.DESC, sortField);
         return userRepository.findAll(sort);

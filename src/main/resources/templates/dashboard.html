@@ -20,20 +20,36 @@
     </tr>
     </thead>
     <tbody>
-    <!-- Loop through the 'users' list -->
     <tr th:each="user : ${users}">
         <td th:text="${user.id}"></td>
         <td th:text="${user.name}"></td>
         <td th:text="${user.email}"></td>
         <td th:text="${user.contactInfo}"></td>
         <td th:text="${user.role}"></td>
-
     </tr>
     </tbody>
 </table>
 
 <!-- Teams Table -->
 <h3>Teams</h3>
+<button onclick="document.getElementById('addTeamForm').style.display='block'">Add Team</button>
+
+<!-- Add Team Form (Initially Hidden) -->
+<div id="addTeamForm" style="display: none; border: 1px solid black; padding: 10px; margin-top: 10px;">
+    <form method="post" th:action="@{/teams/add}" th:object="${newTeam}">
+        <label for="teamName">Team Name:</label>
+        <input type="text" id="teamName" name="name" th:field="*{name}" required />
+        <br>
+
+        <label for="teamDescription">Description:</label>
+        <input type="text" id="teamDescription" name="description" th:field="*{description}" required />
+        <br>
+
+        <button type="submit">Save Team</button>
+        <button type="button" onclick="document.getElementById('addTeamForm').style.display='none'">Cancel</button>
+    </form>
+</div>
+
 <table border="1">
     <thead>
     <tr>
@@ -45,7 +61,6 @@
     </tr>
     </thead>
     <tbody>
-    <!-- Loop through the 'teams' list -->
     <tr th:each="team : ${teams}">
         <td><a th:href="@{/teams/{id}(id=${team.id})}" th:text="${team.id}"></a></td>
         <td><a th:href="@{/teams/{id}(id=${team.id})}" th:text="${team.name}"></a></td>
@@ -68,7 +83,6 @@
     </tr>
     </thead>
     <tbody>
-    <!-- Loop through the 'players' list -->
     <tr th:each="player : ${players}">
         <td th:text="${player.id}"></td>
         <td th:text="${player.user.name}"></td>
