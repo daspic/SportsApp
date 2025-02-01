@@ -7,9 +7,7 @@ import com.example.sportsapp.service.TeamsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -48,4 +46,11 @@ public class TeamController {
 
         return "teamDetails"; // The view to display a single team's details
     }
+
+    @PostMapping("/teams")
+    public String addTeam(@ModelAttribute Team team) {
+        teamService.createTeam(team);
+        return String.format("redirect:/teams/%s", team.getId());  // Redirects back to dashboard
+    }
+
 }

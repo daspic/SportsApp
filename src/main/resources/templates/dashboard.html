@@ -36,7 +36,7 @@
 
 <!-- Add Team Form (Initially Hidden) -->
 <div id="addTeamForm" style="display: none; border: 1px solid black; padding: 10px; margin-top: 10px;">
-    <form method="post" th:action="@{/teams/add}" th:object="${newTeam}">
+    <form method="post" th:action="@{/teams}" th:object="${newTeam}">
         <label for="teamName">Team Name:</label>
         <input type="text" id="teamName" name="name" th:field="*{name}" required />
         <br>

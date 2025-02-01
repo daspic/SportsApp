@@ -58,9 +58,5 @@ public class DashboardController {
         return "dashboard";
     }
 
-    @PostMapping("/teams/add")
-    public String addTeam(@ModelAttribute Team team) {
-        teamService.createTeam(team);
-        return "redirect:/dashboard";  // Redirects back to dashboard
-    }
+
 }
