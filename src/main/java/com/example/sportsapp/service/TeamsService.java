@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,4 +61,9 @@ public class TeamsService {
         Sort sort = Sort.by(ascending ? Sort.Direction.ASC : Sort.Direction.DESC, sortField);
         return teamsRepository.findAll(sort);
     }
+
+    public Team createTeam(Team team) {
+        return teamsRepository.save(team);
+    }
+
 }

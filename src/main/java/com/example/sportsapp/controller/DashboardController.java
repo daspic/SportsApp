@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -36,6 +38,8 @@ public class DashboardController {
             @RequestParam(value = "teamId", required = false) Long teamId, // Add this to filter players by team
             Model model) {
 
+        model.addAttribute("newTeam", new Team()); // Provide an empty team for form
+
         // Validate sort fields
         if (userSort == null || userSort.isEmpty()) userSort = "id";
         if (teamSort == null || teamSort.isEmpty()) teamSort = "id";
@@ -53,4 +57,6 @@ public class DashboardController {
 
         return "dashboard";
     }
+
+
 }
