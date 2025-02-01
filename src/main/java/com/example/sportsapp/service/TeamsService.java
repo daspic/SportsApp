@@ -63,8 +63,6 @@ public class TeamsService {
     }
 
     public Team createTeam(Team team) {
-        team.setCreatedAt(LocalDateTime.now());
-        team.setUpdatedAt(LocalDateTime.now());
         return teamsRepository.save(team);
     }
 
