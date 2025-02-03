@@ -78,11 +78,11 @@ public class PlayerService {
         return playersRepository.findAllByTeam(team, sort);
     }
 
-    public Page<Players> getAllPlayersPaginated(Pageable pageable) {
+    public Page<Player> getAllPlayersPaginated(Pageable pageable) {
         return playersRepository.findAll(pageable);
     }
 
-    public Page<Players> getPlayersByTeamPaginated(Team team, String sortBy, int page, int size, boolean ascending) {
+    public Page<Player> getPlayersByTeamPaginated(Team team, String sortBy, int page, int size, boolean ascending) {
         Sort sort = ascending ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(page, size, sort);
         return playersRepository.findByTeam(team, pageable);

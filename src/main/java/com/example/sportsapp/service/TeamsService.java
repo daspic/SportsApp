@@ -67,4 +67,8 @@ public class TeamsService {
     public Page<Team> getAllTeamsPaginated(Pageable pageable) {
         return teamsRepository.findAll(pageable);
     }
+
+    public Team createTeam(Team team) {
+        return teamsRepository.save(team);
+    }
 }
