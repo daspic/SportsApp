@@ -1,5 +1,6 @@
 package com.example.sportsapp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.Objects;
 
@@ -17,6 +18,7 @@ public class Player {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "team_id", nullable = false)
+    @JsonIgnore // Prevent circular reference
     private Team team;
 
     @Column(name="player_stats")
@@ -44,13 +46,15 @@ public class Player {
     }
 
     public void setTeam(Team team) {
-        // Maintain bi-directional consistency
-        if (this.team != null) {
-            this.team.removePlayer(this);
+        // If the player is already associated with the team, do nothing
+        if (this.team != null && this.team != team) {
+            this.team.removePlayer(this);  // Remove from the old team
         }
-        this.team = team;
+
+        this.team = team;  // Set the new team
+
         if (team != null) {
-            team.addPlayer(this);
+            team.addPlayer(this);  // Add to the new team, but do not trigger setTeam again
         }
     }
 

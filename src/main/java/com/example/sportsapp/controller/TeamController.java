@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -60,4 +61,14 @@ public class TeamController {
         return String.format("redirect:/teams/%s", team.getId());  // Redirects back to dashboard
     }
 
+    @PostMapping("/teams/{id}/add-player")
+    public String addPlayerToTeam(@PathVariable Long id, @RequestParam String email, RedirectAttributes redirectAttributes) {
+        try {
+            teamService.addPlayerToTeam(id, email);
+            redirectAttributes.addFlashAttribute("success", "Player added successfully!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Error adding player: " + e.getMessage());
+        }
+        return "redirect:/teams/" + id;
+    }
 }
