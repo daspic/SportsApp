@@ -72,44 +72,44 @@ INSERT INTO teams (name, description) VALUES
 ('Dinamo', 'cea mai slaba');
 --
 
---Table Players
-INSERT INTO players (user_id, team_id, player_stats) VALUES (2, 1, 'Stats for Player 2');
-
-INSERT INTO players (user_id, team_id, player_stats) VALUES (3, 1, 'Stats for Player 3');
-
-INSERT INTO players (user_id, team_id, player_stats) VALUES (4, 1, 'Stats for Player 4');
-
-INSERT INTO players (user_id, team_id, player_stats) VALUES (5, 2, 'Stats for Player 5');
-
-INSERT INTO players (user_id, team_id, player_stats) VALUES (6, 2, 'Stats for Player 6');
-
-INSERT INTO players (user_id, team_id, player_stats) VALUES (7, 2, 'Stats for Player 7');
-
-INSERT INTO players (user_id, team_id, player_stats) VALUES (8, 2, 'Stats for Player 8');
-
-INSERT INTO players (user_id, team_id, player_stats) VALUES (9, 1, 'Stats for Player 9');
-
-INSERT INTO players (user_id, team_id, player_stats) VALUES (10, 1, 'Stats for Player 10');
-
-INSERT INTO players (user_id, team_id, player_stats) VALUES (11, 2, 'Stats for Player 11');
-
-INSERT INTO players (user_id, team_id, player_stats) VALUES (12, 2, 'Stats for Player 12');
-
-INSERT INTO players (user_id, team_id, player_stats) VALUES (13, 1, 'Stats for Player 13');
-
-INSERT INTO players (user_id, team_id, player_stats) VALUES (14, 2, 'Stats for Player 14');
-
-INSERT INTO players (user_id, team_id, player_stats) VALUES (15, 1, 'Stats for Player 15');
-
-INSERT INTO players (user_id, team_id, player_stats) VALUES (16, 2, 'Stats for Player 16');
-
-INSERT INTO players (user_id, team_id, player_stats) VALUES (17, 1, 'Stats for Player 17');
-
-INSERT INTO players (user_id, team_id, player_stats) VALUES (18, 2, 'Stats for Player 18');
-
-INSERT INTO players (user_id, team_id, player_stats) VALUES (19, 1, 'Stats for Player 19');
-
-INSERT INTO players (user_id, team_id, player_stats) VALUES (20, 2, 'Stats for Player 20');
-
-INSERT INTO players (user_id, team_id, player_stats) VALUES (21, 1, 'Stats for Player 21');
+----Table Players
+--INSERT INTO players (user_id, team_id, player_stats) VALUES (2, 1, 'Stats for Player 2');
+--
+--INSERT INTO players (user_id, team_id, player_stats) VALUES (3, 1, 'Stats for Player 3');
+--
+--INSERT INTO players (user_id, team_id, player_stats) VALUES (4, 1, 'Stats for Player 4');
+--
+--INSERT INTO players (user_id, team_id, player_stats) VALUES (5, 2, 'Stats for Player 5');
+--
+--INSERT INTO players (user_id, team_id, player_stats) VALUES (6, 2, 'Stats for Player 6');
+--
+--INSERT INTO players (user_id, team_id, player_stats) VALUES (7, 2, 'Stats for Player 7');
+--
+--INSERT INTO players (user_id, team_id, player_stats) VALUES (8, 2, 'Stats for Player 8');
+--
+--INSERT INTO players (user_id, team_id, player_stats) VALUES (9, 1, 'Stats for Player 9');
+--
+--INSERT INTO players (user_id, team_id, player_stats) VALUES (10, 1, 'Stats for Player 10');
+--
+--INSERT INTO players (user_id, team_id, player_stats) VALUES (11, 2, 'Stats for Player 11');
+--
+--INSERT INTO players (user_id, team_id, player_stats) VALUES (12, 2, 'Stats for Player 12');
+--
+--INSERT INTO players (user_id, team_id, player_stats) VALUES (13, 1, 'Stats for Player 13');
+--
+--INSERT INTO players (user_id, team_id, player_stats) VALUES (14, 2, 'Stats for Player 14');
+--
+--INSERT INTO players (user_id, team_id, player_stats) VALUES (15, 1, 'Stats for Player 15');
+--
+--INSERT INTO players (user_id, team_id, player_stats) VALUES (16, 2, 'Stats for Player 16');
+--
+--INSERT INTO players (user_id, team_id, player_stats) VALUES (17, 1, 'Stats for Player 17');
+--
+--INSERT INTO players (user_id, team_id, player_stats) VALUES (18, 2, 'Stats for Player 18');
+--
+--INSERT INTO players (user_id, team_id, player_stats) VALUES (19, 1, 'Stats for Player 19');
+--
+--INSERT INTO players (user_id, team_id, player_stats) VALUES (20, 2, 'Stats for Player 20');
+--
+--INSERT INTO players (user_id, team_id, player_stats) VALUES (21, 1, 'Stats for Player 21');
 

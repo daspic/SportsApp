@@ -3,9 +3,14 @@ package com.example.sportsapp.controller;
 import com.example.sportsapp.model.Player;
 import com.example.sportsapp.model.Team;
 import com.example.sportsapp.model.User;
+import com.example.sportsapp.repository.PlayersRepository;
+import com.example.sportsapp.repository.TeamsRepository;
+import com.example.sportsapp.repository.UserRepository;
 import com.example.sportsapp.service.PlayerService;
 import com.example.sportsapp.service.TeamsService;
 import com.example.sportsapp.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,11 +19,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class DashboardController {
@@ -26,12 +30,21 @@ public class DashboardController {
     private final UserService userService;
     private final TeamsService teamService;
     private final PlayerService playerService;
+    private final UserRepository userRepository;
+    private final TeamsRepository teamsRepository;
+    private final PlayersRepository playersRepository;
+
+
+    private static final Logger logger = LoggerFactory.getLogger(DashboardController.class);
 
     @Autowired
-    public DashboardController(UserService userService, TeamsService teamService, PlayerService playerService) {
+    public DashboardController(UserService userService, TeamsService teamService, PlayerService playerService, UserRepository userRepository, TeamsRepository teamsRepository, PlayersRepository playersRepository) {
         this.userService = userService;
         this.teamService = teamService;
         this.playerService = playerService;
+        this.userRepository = userRepository;
+        this.teamsRepository = teamsRepository;
+        this.playersRepository = playersRepository;
     }
 
     @GetMapping("/dashboard")
@@ -46,10 +59,22 @@ public class DashboardController {
             @RequestParam(value = "playerSort", required = false, defaultValue = "id") String playerSort,
             @RequestParam(value = "playerPage", defaultValue = "0") int playerPage,
             @RequestParam(value = "playerSize", defaultValue = "10") int playerSize
-    ) {
+    )
+    {
+        prepareDashboardModel(model, userSort, userPage, userSize, teamSort, teamPage, teamSize, playerSort, playerPage, playerSize);
+        return "dashboard";
+    }
+
+    private void prepareDashboardModel(Model model, String userSort, int userPage, int userSize, String teamSort, int teamPage, int teamSize, String playerSort, int playerPage, int playerSize) {
         // Fetch paginated data
         Pageable userPageable = PageRequest.of(userPage, userSize, Sort.by(userSort));
         Page<User> userPageData = userService.getAllUsersPaginated(userPageable);
+
+        if (userPageData == null) {
+            System.out.println("userPageData is null");
+        } else {
+            System.out.println("userPageData: " + userPageData);
+        }
 
         Pageable teamPageable = PageRequest.of(teamPage, teamSize, Sort.by(teamSort));
         Page<Team> teamPageData = teamService.getAllTeamsPaginated(teamPageable);
@@ -77,8 +102,6 @@ public class DashboardController {
         model.addAttribute("playerPage", playerPage);
         model.addAttribute("playerSize", playerSize);
         model.addAttribute("playerSort", playerSort);
-
-        return "dashboard";
     }
 
     @GetMapping("/users")
@@ -89,10 +112,6 @@ public class DashboardController {
             @RequestParam(value = "userSort", required = false) String userSort) {
 
         if (userSort == null || userSort.isEmpty()) userSort = "id";
-
-//        // Fetch and sort users (if needed)
-//        List<User> users = userService.getAllUsersSorted(userSort, true);
-//        model.addAttribute("users", users);
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(userSort));
         Page<User> userPage = userService.getAllUsersSortedPaginated(pageable);
@@ -142,5 +161,73 @@ public class DashboardController {
         model.addAttribute("playerSort", playerSort);
 
         return "players";
+    }
+
+    @PostMapping("/dashboard/addPlayer")
+    public String addUserAsPlayer(
+            @RequestParam("userEmail") String userEmail,
+            @RequestParam("teamName") String teamName,
+            @RequestParam("playerStats") String playerStats,
+            @RequestParam(value = "userSort", required = false, defaultValue = "id") String userSort,
+            @RequestParam(value = "userPage", defaultValue = "0") int userPage,
+            @RequestParam(value = "userSize", defaultValue = "10") int userSize,
+            @RequestParam(value = "teamSort", required = false, defaultValue = "id") String teamSort,
+            @RequestParam(value = "teamPage", defaultValue = "0") int teamPage,
+            @RequestParam(value = "teamSize", defaultValue = "10") int teamSize,
+            @RequestParam(value = "playerSort", required = false, defaultValue = "id") String playerSort,
+            @RequestParam(value = "playerPage", defaultValue = "0") int playerPage,
+            @RequestParam(value = "playerSize", defaultValue = "10") int playerSize,
+            Model model) {
+        prepareDashboardModel(model, userSort, userPage, userSize, teamSort, teamPage, teamSize, playerSort, playerPage, playerSize);
+
+
+        // Find the user by email
+        Optional<User> optionalUser = userService.findByEmail(userEmail);
+        if (optionalUser.isEmpty()) {
+            model.addAttribute("errorMessage", "User not found.");
+            return "dashboard";
+        }
+
+        User existingUser = optionalUser.get();
+
+        // Check if the user has the "player" role
+        if (!existingUser.getRole().equalsIgnoreCase("PLAYER")) {
+            model.addAttribute("errorMessage", "Error: User '" + userEmail + "' must have the 'PLAYER' role to be added.");
+            return "dashboard";
+        }
+
+        Optional<Team> optionalTeam = teamService.findByNameIgnoreCase(teamName);
+        if (optionalTeam.isEmpty()) {
+            model.addAttribute("errorMessage", "Error: Team with name '" + teamName + "' was not found.");
+            return "dashboard";
+        }
+        Team team = optionalTeam.get();
+        User user = optionalUser.get();
+
+        // Check if the player already exists in the team
+        boolean playerExists = playersRepository.existsByUserAndTeam(user, team);
+        if (playerExists) {
+            model.addAttribute("errorMessage", "Error: Player is already in team '" + teamName.substring(0, 1).toUpperCase() + teamName.substring(1).toLowerCase() + "'.");
+            return "dashboard";
+        }
+
+//        // Determine the next available player ID within the team
+//        int nextPlayerNumber = playersRepository.findMaxTeamPlayerNumberByTeam(team) + 1;
+
+        // Create a new Player entity
+        Player player = new Player();
+//        player.setTeamPlayerNumber(nextPlayerNumber); // Assign new number within the team
+        player.setUser(existingUser);
+        player.setTeam(team);
+        player.setPlayerStats(playerStats);
+
+        playerService.save(player);
+
+        // Fetch paginated data (only for user data)
+        Pageable userPageable = PageRequest.of(0, 10, Sort.by("id"));
+        Page<User> userPageData = userService.getAllUsersPaginated(userPageable);
+        model.addAttribute("userPageData", userPageData);
+
+        return "redirect:/dashboard";
     }
 }
