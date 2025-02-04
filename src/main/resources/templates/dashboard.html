@@ -7,6 +7,11 @@
 <body>
 <h1>Dashboard</h1>
 
+<!-- Display error messages -->
+<div th:if="${errorMessage}" style="color: red; font-weight: bold; margin-bottom: 10px;">
+    <p th:text="${errorMessage}"></p>
+</div>
+
 <!-- Users Table -->
 <h3><a th:href="@{/users}">Users</a></h3>
 <form method="get" action="#" th:action="@{/dashboard}">
@@ -31,7 +36,7 @@
     </thead>
     <tbody>
     <tr th:if="${userPageData != null}" th:each="user : ${userPageData.content}">
-        <td th:text="${user.id}"></td>
+        <td><span th:text="${user.id}"></span></td>
         <td th:text="${user.name}"></td>
         <td th:text="${user.email}"></td>
         <td th:text="${user.contactInfo}"></td>
@@ -116,6 +121,27 @@
     </select>
     <input type="hidden" name="playerSort" th:value="${playerSort}" />
 </form>
+
+<button onclick="document.getElementById('addUserForm').style.display = 'block'">Add User as Player</button>
+
+<div id="addUserForm" style="display: none; border: 1px solid black; padding: 10px; margin-top: 10px;">
+    <form method="post" th:action="@{/dashboard/addPlayer}">
+        <label for="userEmail">User Email:</label>
+        <input type="email" id="userEmail" name="userEmail" required />
+        <br>
+
+        <label for="teamName">Team Name:</label>
+        <input type="text" id="id" name="teamName" required />
+        <br>
+
+        <label for="playerStats">Player Stats:</label>
+        <input type="text" id="playerStats" name="playerStats" />
+        <br>
+
+        <button type="submit">Add as Player</button>
+        <button type="button" onclick="document.getElementById('addUserForm').style.display = 'none'">Cancel</button>
+    </form>
+</div>
 
 <table border="1">
     <thead>

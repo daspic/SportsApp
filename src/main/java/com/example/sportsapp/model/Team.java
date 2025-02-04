@@ -45,9 +45,7 @@ public class Team {
     // Add player to the team
     public void addPlayer(Player player) {
         players.add(player);
-        if (player.getTeam() != this) {  // Ensure the player is not already associated with this team
-            player.setTeam(this);
-        }
+//        player.setTeam(this); // Maintain bidirectional consistency
     }
 
     // Remove player from the team

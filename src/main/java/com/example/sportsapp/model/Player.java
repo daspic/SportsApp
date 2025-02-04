@@ -12,6 +12,8 @@ public class Player {
     @Column(name = "player_id")
     private Long id;
 
+//    private Integer teamPlayerNumber; // New field for numbering players within the team
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -32,6 +34,14 @@ public class Player {
     protected void setId(Long id) {
         this.id = id;
     }
+
+//    public Integer getTeamPlayerNumber() {
+//        return teamPlayerNumber;
+//    }
+//
+//    public void setTeamPlayerNumber(Integer teamPlayerNumber) {
+//        this.teamPlayerNumber = teamPlayerNumber;
+//    }
 
     public User getUser() {
         return user;
