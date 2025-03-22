@@ -10,8 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Optional;
 
 @Service
@@ -39,31 +38,41 @@ public class TeamsService {
     }
 
     public Team createTeam(Team team) {
+        Optional<Team> existingTeam = teamsRepository.findByNameIgnoreCase(team.getName());
+        if (existingTeam.isPresent()) {
+            throw new IllegalArgumentException("A team with this name already exists.");
+        }
         return teamsRepository.save(team);
     }
 
-    public void addPlayerToTeam(Long teamId, String email) {
-        // Find the team by ID
+    public void addPlayerToTeam(
+            @RequestParam("playerStats") String playerStats,
+            Long teamId, String email) {
+        // Fetch the team
         Team team = teamsRepository.findById(teamId)
-                .orElseThrow(() -> new RuntimeException("Team not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Team not found."));
 
-        // Find the user by email
+        // Fetch the user by email
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new IllegalArgumentException("User not found."));
 
-        // Find the existing player for this user
-        Player player = playersRepository.findByUser(user)
-                .orElseThrow(() -> new RuntimeException("Player not found"));
-
-        // Check if the player is already part of the team
-        if (playersRepository.existsByUserAndTeam(user, team)) {
-            throw new RuntimeException("Player is already in this team");
+        // Check if the user already exists in the team
+        boolean playerExists = playersRepository.existsByUserAndTeam(user, team);
+        if (playerExists) {
+            throw new IllegalArgumentException("This player is already in the team.");
         }
 
-        // Associate the player with the team (this should not trigger recursion now)
-        player.setTeam(team);
+        // Check if the user has the "player" role
+        if (!user.getRole().equalsIgnoreCase("player")) {
+            throw new IllegalArgumentException("User is not a player.");
+        }
 
-        // Save the updated player without modifying the id (it will retain the same ID)
+        // Create and save the new Player
+        Player player = new Player();
+        player.setUser(user);
+        player.setTeam(team);
+        player.setPlayerStats(playerStats); // Set player stats
+
         playersRepository.save(player);
     }
 

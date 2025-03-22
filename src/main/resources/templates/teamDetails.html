@@ -17,12 +17,31 @@
 </div>
 
 <!-- Add Player to Team Form -->
-<h3>Add Player to Team</h3>
-<form method="post" th:action="@{/teams/{id}/add-player(id=${team.id})}">
-    <label for="playerEmail">Player Email:</label>
-    <input type="email" id="playerEmail" name="email" required />
-    <button type="submit">Add Player</button>
-</form>
+<button onclick="document.getElementById('addUserForm').style.display = 'block'">Add Player to Team</button>
+
+<div id="addUserForm" style="display: none; border: 1px solid black; padding: 10px; margin-top: 10px;">
+    <form method="post" th:action="@{/teams/{id}/add-player(id=${team.id})}">
+        <input type="hidden" name="from" th:value="${from}" /> <!-- Preserve 'from' parameter -->
+
+        <label for="playerEmail">Player Email:</label>
+        <input type="email" id="playerEmail" name="email" required /><br>
+
+        <label for="playerStats">Player Stats:</label>
+        <input type="text" id="playerStats" name="playerStats" required /><br>
+
+        <button type="submit">Add Player</button>
+    </form>
+</div>
+
+<!-- Error Message -->
+<div th:if="${error}" style="color: red;">
+    <p th:text="${error}"></p>
+</div>
+
+<!-- Success Message -->
+<div th:if="${success}" style="color: green;">
+    <p th:text="${success}"></p>
+</div>
 
 <!-- Display the players associated with the team -->
 <h2 th:text="'Players in ' + ${team.name}"></h2>
@@ -41,8 +60,8 @@
 <table>
     <thead>
     <tr>
-        <th><a th:href="@{/teams/{id}(id=${team.id}, playerSort='id', playerPage=0, playerSize=${playerSize})}">ID</a></th>
-        <th><a th:href="@{/teams/{id}(id=${team.id}, playerSort='user.name', playerPage=0, playerSize=${playerSize})}">Name</a></th>
+        <th><a th:href="@{/teams/{id}(id=${team.id}, playerSort='id', playerPage=0, playerSize=${playerSize}, from=${from})}">ID</a></th>
+        <th><a th:href="@{/teams/{id}(id=${team.id}, playerSort='user.name', playerPage=0, playerSize=${playerSize}, from=${from})}">Name</a></th>
         <th>Stats</th>
     </tr>
     </thead>
@@ -63,9 +82,9 @@
 </div>
 
 <!-- Back to appropriate page -->
-<!--<a th:href="${from == 'teams' ? '/teams' : '/dashboard'}" th:text="${from == 'teams' ? 'Back to Teams' : 'Back to Dashboard'}"></a>-->
 <a th:if="${from == 'teams'}" th:href="@{/teams}">Back to Teams</a><br>
-<a th:href="@{/dashboard}">Back to Dashboard</a>
+<a th:href="@{/dashboard}">Back to Dashboard</a><br>
+<a th:if="${param.playerId}" th:href="@{/players/{id}(id=${param.playerId})}">Back to Player Details</a>
 
 </body>
 </html>

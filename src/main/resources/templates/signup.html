@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
     <title>Please Sign Up</title>
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 <h1>Please Sign Up</h1>
@@ -17,13 +18,14 @@
         <input type="password" name="password" placeholder="Password"/>
     </div>
     <div>
-        <textarea name="contactInfo" rows="10" cols="30"></textarea>
+        <textarea name="contactInfo" rows="10" cols="30" placeholder="Contact Info"></textarea>
     </div>
     <div>
-        <input type="text" name="name"/>
+        <input type="text" name="name" placeholder="Hole Name"/>
     </div>
     <div>
         <select name="role">
+
             <option value="ADMIN">Admin</option>
             <option value="PLAYER">Player</option>
             <option value="GUEST">Guest</option>

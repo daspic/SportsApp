@@ -32,6 +32,7 @@ CREATE TABLE players (
     user_id BIGINT NOT NULL,
     team_id BIGINT NOT NULL,
     player_stats VARCHAR(255),
+    profile_picture VARCHAR(255),
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (team_id) REFERENCES teams(team_id) ON DELETE CASCADE ON UPDATE CASCADE
 );

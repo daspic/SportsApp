@@ -48,15 +48,6 @@ public class UserService {
         return "User registered successfully";
     }
 
-    public List<User> getAllUsersSorted(String sortField, boolean ascending) {
-        Sort sort = Sort.by(ascending ? Sort.Direction.ASC : Sort.Direction.DESC, sortField);
-        return userRepository.findAll(sort);
-    }
-
-    public Page<User> getAllUsersSortedPaginated(Pageable pageable) {
-        return userRepository.findAll(pageable);
-    }
-
     public Page<User> getAllUsersPaginated(Pageable pageable) {
         return userRepository.findAll(pageable);
     }

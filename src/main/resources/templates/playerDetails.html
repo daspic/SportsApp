@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Player Details</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<h1 th:text="'Details of Player: ' + ${player.user.name}"></h1>
+
+<p><strong>ID:</strong> <span th:text="${player.id}"></span></p>
+<p><strong>Name:</strong> <span th:text="${player.user.name}"></span></p>
+<p><strong>Team:</strong>
+    <a th:href="@{/teams/{teamId}(teamId=${player.team.id}, playerId=${player.id})}" th:text="${player.team.name}"></a>
+</p>
+<p><strong>Player Stats:</strong> <span th:text="${player.playerStats ?: 'No stats available'}"></span></p>
+
+<div>
+    <h3>Profile Picture</h3>
+
+    <!-- Image Display -->
+    <img id="profileImage" th:if="${player.profilePicture}"
+         th:src="@{'/' + ${player.profilePicture}}"
+         alt="Player Image" width="200">
+
+    <!-- Message when there is no profile picture -->
+    <p id="noPictureMsg" th:if="${player.profilePicture == null}">No profile picture available.</p>
+</div>
+
+<!-- File Input -->
+<form id="uploadForm" th:action="@{/players/{id}/upload(id=${player.id})}" method="post" enctype="multipart/form-data">
+    <input type="file" name="image" id="imageInput" required>
+</form>
+
+<a href="/dashboard">Back to Dashboard</a>
+
+<script>
+    document.getElementById('imageInput').addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const formData = new FormData(document.getElementById('uploadForm'));
+
+            fetch(document.getElementById('uploadForm').action, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log("Server Response:", data);
+                const fileName = data;
+                const timestamp = new Date().getTime();
+                const imageUrl = `/${fileName}?t=${timestamp}`; // Force reload
+
+                console.log("Image URL:", imageUrl);
+
+                let profileImage = document.getElementById('profileImage');
+                if (!profileImage) {
+                    profileImage = document.createElement('img');
+                    profileImage.id = 'profileImage';
+                    profileImage.width = 200;
+                    document.getElementById('uploadForm').parentNode.insertBefore(profileImage, document.getElementById('uploadForm'));
+                }
+
+                profileImage.src = imageUrl;
+                console.log("Image Source Updated:", profileImage.src);
+
+                // Hide "No profile picture available" message
+                const noPictureMsg = document.getElementById('noPictureMsg');
+                if (noPictureMsg) {
+                    noPictureMsg.style.display = 'none';
+                }
+
+                // Hide "No file chosen" message
+                const fileChosenMsg = document.getElementById('fileChosenMsg');
+                if (fileChosenMsg) {
+                    fileChosenMsg.style.display = 'none';
+                }
+
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    });
+</script>
+
+</body>
+</html>

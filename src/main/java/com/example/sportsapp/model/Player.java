@@ -1,6 +1,5 @@
 package com.example.sportsapp.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.Objects;
 
@@ -18,13 +17,15 @@ public class Player {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne(optional = false)
+    @ManyToOne//(optional = false)
     @JoinColumn(name = "team_id", nullable = false)
-    @JsonIgnore // Prevent circular reference
     private Team team;
 
     @Column(name="player_stats")
     private String playerStats;
+
+    @Column(name = "profile_picture")
+    private String profilePicture;
 
     // Getters and setters
     public Long getId() {
@@ -34,14 +35,6 @@ public class Player {
     protected void setId(Long id) {
         this.id = id;
     }
-
-//    public Integer getTeamPlayerNumber() {
-//        return teamPlayerNumber;
-//    }
-//
-//    public void setTeamPlayerNumber(Integer teamPlayerNumber) {
-//        this.teamPlayerNumber = teamPlayerNumber;
-//    }
 
     public User getUser() {
         return user;
@@ -57,14 +50,14 @@ public class Player {
 
     public void setTeam(Team team) {
         // If the player is already associated with the team, do nothing
-        if (this.team != null && this.team != team) {
+        if (this.team != null) {
             this.team.removePlayer(this);  // Remove from the old team
         }
 
         this.team = team;  // Set the new team
 
-        if (team != null) {
-            team.addPlayer(this);  // Add to the new team, but do not trigger setTeam again
+        if (team != null && !team.getPlayers().contains(this)) {
+            team.getPlayers().add(this);  // Add to the new team, but do not trigger setTeam again
         }
     }
 
@@ -74,6 +67,14 @@ public class Player {
 
     public void setPlayerStats(String playerStats) {
         this.playerStats = playerStats;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
     }
 
     @Override

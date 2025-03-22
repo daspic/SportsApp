@@ -65,3 +65,7 @@ tbody tr:hover {
         font-size: 12px; /* Reduce font size for better fit */
     }
 }
+
+#profileImage {
+    border-radius: 100px;
+    }

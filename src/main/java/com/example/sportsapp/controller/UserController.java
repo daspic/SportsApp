@@ -27,6 +27,4 @@ public class UserController {
         userService.registerUser(users);
         return "redirect:/login";
     }
-
-
 }

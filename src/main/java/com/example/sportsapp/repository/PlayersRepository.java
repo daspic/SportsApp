@@ -7,9 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -18,13 +15,9 @@ public interface PlayersRepository extends JpaRepository<Player, Long> {
     // Fetch a single player by their ID
     Optional<Player> findById(Long id);
 
-    Optional<Player> findByUser(User user);
+    Page<Player> findAll(Pageable pageable);
 
-    List<Player> findAllByTeam(Team team, Sort sort);
-
-    List<Player> findAll(Sort sort);
-
-    Page<Player> findByTeam(Team team, Pageable pageable); // Add this method
+    Page<Player> findByTeam(Team team, Pageable pageable);
 
     boolean existsByUserAndTeam(User user, Team team);
 }

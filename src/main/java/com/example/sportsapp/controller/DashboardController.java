@@ -21,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
 
@@ -65,16 +66,11 @@ public class DashboardController {
         return "dashboard";
     }
 
-    private void prepareDashboardModel(Model model, String userSort, int userPage, int userSize, String teamSort, int teamPage, int teamSize, String playerSort, int playerPage, int playerSize) {
+    private void prepareDashboardModel(Model model, String userSort, int userPage, int userSize, String teamSort,
+                                       int teamPage, int teamSize, String playerSort, int playerPage, int playerSize) {
         // Fetch paginated data
         Pageable userPageable = PageRequest.of(userPage, userSize, Sort.by(userSort));
         Page<User> userPageData = userService.getAllUsersPaginated(userPageable);
-
-        if (userPageData == null) {
-            System.out.println("userPageData is null");
-        } else {
-            System.out.println("userPageData: " + userPageData);
-        }
 
         Pageable teamPageable = PageRequest.of(teamPage, teamSize, Sort.by(teamSort));
         Page<Team> teamPageData = teamService.getAllTeamsPaginated(teamPageable);
@@ -114,7 +110,7 @@ public class DashboardController {
         if (userSort == null || userSort.isEmpty()) userSort = "id";
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(userSort));
-        Page<User> userPage = userService.getAllUsersSortedPaginated(pageable);
+        Page<User> userPage = userService.getAllUsersPaginated(pageable);
 
         model.addAttribute("userPage", userPage);
         model.addAttribute("currentPage", page);
@@ -132,9 +128,11 @@ public class DashboardController {
             @RequestParam(value = "teamSort", required = false) String teamSort){
 
         if (teamSort == null || teamSort.isEmpty()) teamSort = "id";
+
         Pageable pageable = PageRequest.of(page, pageSize, Sort.by(teamSort)); // Create Pageable object
         Page<Team> teamPage = teamService.getAllTeamsPaginated(pageable); // Use Pageable in your service method
 
+        model.addAttribute("newTeam", new Team()); // Provide an empty team for form
         model.addAttribute("teamPage", teamPage);
         model.addAttribute("pageSize", pageSize);
         model.addAttribute("currentPage", page);
@@ -177,57 +175,21 @@ public class DashboardController {
             @RequestParam(value = "playerSort", required = false, defaultValue = "id") String playerSort,
             @RequestParam(value = "playerPage", defaultValue = "0") int playerPage,
             @RequestParam(value = "playerSize", defaultValue = "10") int playerSize,
+            RedirectAttributes redirectAttributes,
             Model model) {
+
         prepareDashboardModel(model, userSort, userPage, userSize, teamSort, teamPage, teamSize, playerSort, playerPage, playerSize);
 
-
-        // Find the user by email
-        Optional<User> optionalUser = userService.findByEmail(userEmail);
-        if (optionalUser.isEmpty()) {
-            model.addAttribute("errorMessage", "User not found.");
-            return "dashboard";
+        String errorMessage = playerService.addUserAsPlayer(userEmail, teamName, playerStats);
+        if (errorMessage.contains("Error")) {
+            redirectAttributes.addFlashAttribute("errorAddPlayerToTeam", errorMessage);
+        } else {
+            redirectAttributes.addFlashAttribute("successAddPlayerToTeam", errorMessage);
         }
 
-        User existingUser = optionalUser.get();
-
-        // Check if the user has the "player" role
-        if (!existingUser.getRole().equalsIgnoreCase("PLAYER")) {
-            model.addAttribute("errorMessage", "Error: User '" + userEmail + "' must have the 'PLAYER' role to be added.");
-            return "dashboard";
-        }
-
-        Optional<Team> optionalTeam = teamService.findByNameIgnoreCase(teamName);
-        if (optionalTeam.isEmpty()) {
-            model.addAttribute("errorMessage", "Error: Team with name '" + teamName + "' was not found.");
-            return "dashboard";
-        }
-        Team team = optionalTeam.get();
-        User user = optionalUser.get();
-
-        // Check if the player already exists in the team
-        boolean playerExists = playersRepository.existsByUserAndTeam(user, team);
-        if (playerExists) {
-            model.addAttribute("errorMessage", "Error: Player is already in team '" + teamName.substring(0, 1).toUpperCase() + teamName.substring(1).toLowerCase() + "'.");
-            return "dashboard";
-        }
-
-//        // Determine the next available player ID within the team
-//        int nextPlayerNumber = playersRepository.findMaxTeamPlayerNumberByTeam(team) + 1;
-
-        // Create a new Player entity
-        Player player = new Player();
-//        player.setTeamPlayerNumber(nextPlayerNumber); // Assign new number within the team
-        player.setUser(existingUser);
-        player.setTeam(team);
-        player.setPlayerStats(playerStats);
-
-        playerService.save(player);
-
-        // Fetch paginated data (only for user data)
-        Pageable userPageable = PageRequest.of(0, 10, Sort.by("id"));
-        Page<User> userPageData = userService.getAllUsersPaginated(userPageable);
-        model.addAttribute("userPageData", userPageData);
-
-        return "redirect:/dashboard";
+        return "redirect:/dashboard"
+                + "?playerPage=" + playerPage + "&playerSize=" + playerSize + "&playerSort=" + playerSort
+                + "&teamPage=" + teamPage + "&teamSize=" + teamSize + "&teamSort=" + teamSort
+                + "&userPage=" + userPage + "&userSize=" + userSize + "&userSort=" + userSort;
     }
 }

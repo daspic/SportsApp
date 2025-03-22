@@ -21,7 +21,16 @@
         <option value="10" th:selected="${userSize == 10}">Show 10 users</option>
         <option value="20" th:selected="${userSize == 20}">Show 20 users</option>
     </select>
-    <input type="hidden" name="userSort" th:value="${userSort}" />
+    <input type="hidden" name="userPage" th:value="${userPage}" />
+
+    <!-- Preserve teams and players pagination values -->
+    <input type="hidden" name="teamPage" th:value="${teamPage}" />
+    <input type="hidden" name="teamSize" th:value="${teamSize}" />
+    <input type="hidden" name="teamSort" th:value="${teamSort}" />
+
+    <input type="hidden" name="playerPage" th:value="${playerPage}" />
+    <input type="hidden" name="playerSize" th:value="${playerSize}" />
+    <input type="hidden" name="playerSort" th:value="${playerSort}" />
 </form>
 
 <table border="1">
@@ -61,7 +70,16 @@
         <option value="10" th:selected="${teamSize == 10}">Show 10 teams</option>
         <option value="20" th:selected="${teamSize == 20}">Show 20 teams</option>
     </select>
-    <input type="hidden" name="teamSort" th:value="${teamSort}" />
+    <input type="hidden" name="teamPage" th:value="${teamPage}" />
+
+    <!-- Preserve users and players pagination values -->
+    <input type="hidden" name="userPage" th:value="${userPage}" />
+    <input type="hidden" name="userSize" th:value="${userSize}" />
+    <input type="hidden" name="userSort" th:value="${userSort}" />
+
+    <input type="hidden" name="playerPage" th:value="${playerPage}" />
+    <input type="hidden" name="playerSize" th:value="${playerSize}" />
+    <input type="hidden" name="playerSort" th:value="${playerSort}" />
 </form>
 
 <button onclick="document.getElementById('addTeamForm').style.display='block'">Add Team</button>
@@ -69,8 +87,13 @@
 <!-- Add Team Form (Initially Hidden) -->
 <div id="addTeamForm" style="display: none; border: 1px solid black; padding: 10px; margin-top: 10px;">
     <form method="post" th:action="@{/teams}" th:object="${newTeam}">
-        <label for="teamName">Team Name:</label>
-        <input type="text" id="teamName" name="name" th:field="*{name}" required />
+        <input type="hidden" name="userPage" th:value="${userPage}" />
+        <input type="hidden" name="userSize" th:value="${userSize}" />
+        <input type="hidden" name="teamSize" th:value="${teamSize}" /> <!-- Preserve selected page size -->
+        <input type="hidden" name="teamPage" th:value="${teamPage}" /> <!-- Preserve current page -->
+
+        <label for="newTeamName">Team Name:</label>
+        <input type="text" id="newTeamName" name="name" th:field="*{name}" required />
         <br>
 
         <label for="teamDescription">Description:</label>
@@ -80,6 +103,16 @@
         <button type="submit">Save Team</button>
         <button type="button" onclick="document.getElementById('addTeamForm').style.display='none'">Cancel</button>
     </form>
+</div>
+
+<!-- Error adding Team Message -->
+<div th:if="${errorAddTeam}" style="color: red; font-weight: bold; margin-bottom: 10px;">
+    <p th:text="${errorAddTeam}"></p>
+</div>
+
+<!-- Player successfully added Message -->
+<div th:if="${successAddTeam}" style="color: green; font-weight: bold; margin-bottom: 10px;">
+    <p th:text="${successAddTeam}"></p>
 </div>
 
 <table border="1">
@@ -119,28 +152,63 @@
         <option value="10" th:selected="${playerSize == 10}">Show 10 players</option>
         <option value="20" th:selected="${playerSize == 20}">Show 20 players</option>
     </select>
-    <input type="hidden" name="playerSort" th:value="${playerSort}" />
+    <input type="hidden" name="playerPage" th:value="${playerPage}" />
+
+    <!-- Preserve users and teams pagination values -->
+    <input type="hidden" name="userPage" th:value="${userPage}" />
+    <input type="hidden" name="userSize" th:value="${userSize}" />
+    <input type="hidden" name="userSort" th:value="${userSort}" />
+
+    <input type="hidden" name="teamPage" th:value="${teamPage}" />
+    <input type="hidden" name="teamSize" th:value="${teamSize}" />
+    <input type="hidden" name="teamSort" th:value="${teamSort}" />
 </form>
 
 <button onclick="document.getElementById('addUserForm').style.display = 'block'">Add User as Player</button>
 
 <div id="addUserForm" style="display: none; border: 1px solid black; padding: 10px; margin-top: 10px;">
     <form method="post" th:action="@{/dashboard/addPlayer}">
+<!--        <input type="hidden" name="playerSize" th:value="${playerSize}" /> &lt;!&ndash; Preserve selected page size &ndash;&gt;-->
+<!--        <input type="hidden" name="playerPage" th:value="${playerPage}" /> &lt;!&ndash; Preserve current page &ndash;&gt;-->
+
         <label for="userEmail">User Email:</label>
         <input type="email" id="userEmail" name="userEmail" required />
         <br>
 
-        <label for="teamName">Team Name:</label>
-        <input type="text" id="id" name="teamName" required />
+        <label for="playerTeamName">Team Name:</label>
+        <input type="text" id="playerTeamName" name="teamName" required />
         <br>
 
         <label for="playerStats">Player Stats:</label>
         <input type="text" id="playerStats" name="playerStats" />
         <br>
 
+        <!-- Preserve pagination values -->
+        <input type="hidden" name="playerPage" th:value="${playerPage}" />
+        <input type="hidden" name="playerSize" th:value="${playerSize}" />
+        <input type="hidden" name="playerSort" th:value="${playerSort}" />
+
+        <input type="hidden" name="teamPage" th:value="${teamPage}" />
+        <input type="hidden" name="teamSize" th:value="${teamSize}" />
+        <input type="hidden" name="teamSort" th:value="${teamSort}" />
+
+        <input type="hidden" name="userPage" th:value="${userPage}" />
+        <input type="hidden" name="userSize" th:value="${userSize}" />
+        <input type="hidden" name="userSort" th:value="${userSort}" />
+
         <button type="submit">Add as Player</button>
         <button type="button" onclick="document.getElementById('addUserForm').style.display = 'none'">Cancel</button>
     </form>
+</div>
+
+<!-- Error adding Team Message -->
+<div th:if="${errorAddPlayerToTeam}" style="color: red; font-weight: bold; margin-bottom: 10px;">
+    <p th:text="${errorAddPlayerToTeam}"></p>
+</div>
+
+<!-- Player successfully added Message -->
+<div th:if="${successAddPlayerToTeam}" style="color: green; font-weight: bold; margin-bottom: 10px;">
+    <p th:text="${successAddPlayerToTeam}"></p>
 </div>
 
 <table border="1">
@@ -155,7 +223,8 @@
     <tbody>
     <tr th:if="${playerPageData != null}" th:each="player : ${playerPageData.content}">
         <td th:text="${player.id}"></td>
-        <td th:text="${player.user.name}"></td>
+        <td><a th:href="@{/players/{id}(id=${player.id})}" th:text="${player.user.name}"></a></td>
+<!--        <td th:text="${player.user.name}"></td>-->
         <td><a th:href="@{/teams/{id}(id=${player.team.id})}" th:text="${player.team.name}"></a></td>
         <td th:text="${player.playerStats}"></td>
     </tr>

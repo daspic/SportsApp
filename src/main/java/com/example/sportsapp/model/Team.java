@@ -1,6 +1,5 @@
 package com.example.sportsapp.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -28,7 +27,6 @@ public class Team {
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
-    @JsonIgnore // 👈 This prevents serialization from Team → Player → Team loop
     private List<Player> players = new ArrayList<>();
 
     @PrePersist
@@ -44,8 +42,10 @@ public class Team {
 
     // Add player to the team
     public void addPlayer(Player player) {
-        players.add(player);
-//        player.setTeam(this); // Maintain bidirectional consistency
+        if (!players.contains(player)) {
+            players.add(player);
+            player.setTeam(this); // Ensure bidirectional consistency
+        }
     }
 
     // Remove player from the team
